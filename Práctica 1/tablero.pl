@@ -3,7 +3,7 @@
 % pintar un tablero pocho
 
 escribir_lista([]).
-escribir_lista([X|Y]):- write(X), escribir_lista(Y). % escribir_lista([1,' ',2,' ',3,' ',4,' ',5,' ',6,' ',7])
+escribir_lista([X|Y]):- write(X),write(''), escribir_lista(Y). % escribir_lista([1,' ',2,' ',3,' ',4,' ',5,' ',6,' ',7])
 
 escribir_lista_con_barra([]).
 escribir_lista_con_barra([X|Y]):- write(X), write('|'), escribir_lista_con_barra(Y). % escribir_lista_con_barra([1,' ',2,' ',3,' ',4,' ',5,' ',6,' ',7]).
@@ -20,7 +20,7 @@ escribir_tablero([X|L]):- escribir_lista(X), nl,
                           
 prueba1:- lista_repe(15,'-',L1), escribir_lista(L1).
 
-prueba2:- escribir_lista([1,' ',2,' ',3,' ',4,' ',5,' ',6,' ',7]).
+prueba2:- escribir_lista([1,2,3,4,5,6,7]).
 
 prueba3:-
 

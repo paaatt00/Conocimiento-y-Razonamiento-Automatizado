@@ -3,7 +3,13 @@
 % pintar un tablero pocho
 
 tablero_prueba([[1,2,3,4,5,6,7],
-                [0,0,0,0,0,0,0]]).
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]
+                ]).
 
 escribir_lista([]).
 escribir_lista([X|Y]):- write(X),write(' '), escribir_lista(Y). % escribir_lista([1,' ',2,' ',3,' ',4,' ',5,' ',6,' ',7])

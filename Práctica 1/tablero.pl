@@ -1,6 +1,6 @@
 % ---------------------------- PRÁCTICA 1 CRA ----------------------------
 
-% pintar un tablero pocho
+% TABLERO
 
 tablero_prueba([[' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7],
                 ['_', '_', '_', '_', '_', '_', '_'],
@@ -11,6 +11,8 @@ tablero_prueba([[' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7],
                 ['_', '_', '_', '_', '_', '_', '_']
                 ]).
 
+% GENERADOR TABLERO
+
 length_list(N, List) :- length(List, N), 
     				 maplist(=('_'), List).
 
@@ -20,16 +22,20 @@ generador_tablero(X, Y, Out):- %X=filas, Y=columnas, Out=tablero
 
 prueba_gen_tablero:-generador_tablero(7,6,Out), imprimir_tablero(Out).
 
+% IMPRIMIR LISTA
+
 imprimir_lista([]).
 imprimir_lista([X|Y]):- write(X), write(' '), imprimir_lista(Y). % TODO: no imprime bien dos espacios
 
 prueba_impresion:- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]).
 
+% IMPRIMIR LISTA CON BARRA
 
 imprimir_lista_con_barra([]).
 imprimir_lista_con_barra([X|Y]):- write(X), write(' | '),
                                  imprimir_lista_con_barra(Y). 
 
+% GENERADOR GUIONES
 
 generador_lista_guiones(N, Out):- % N = entero, Out = lista de salida
                                 length(Out, N), % Genera una lista out, tal que su longitud es N
@@ -37,18 +43,26 @@ generador_lista_guiones(N, Out):- % N = entero, Out = lista de salida
 
 prueba_guiones:- generador_lista_guiones(15,Y), imprimir_lista(Y).
 
+% IMPRIMIR TABLERO
+
 imprimir_tablero([]):- nl.
 imprimir_tablero([X|L]):- write('| '),
     					imprimir_lista_con_barra(X), nl,
                         generador_lista_guiones(15,L1), imprimir_lista(L1), nl,
                         imprimir_tablero(L).
 
+% IMPRIMIR MESA
+
 imprimir_mesa([]):- nl.
 imprimir_mesa([X|L]):- imprimir_lista(X),nl,
     			    generador_lista_guiones(15,L1), imprimir_lista(L1), nl,
     				imprimir_tablero(L).
 
+% ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽
+
 prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp).
+
+% LEER COLUMNA
 
 leer_columna(X):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
     			read(Y),
@@ -65,17 +79,21 @@ leer_columna(X):- write('Introduzca el numero de columna en el que quiere meter 
 
 prueba_leer:- leer_columna(X), write(X).
 
+% EXTRAER COLUMNA
 
+extraer_columna(N, Tablero, Col):- extraer_columna_aux(N, Tablero, [], Col).
 
-columnai(N,Tablero,Col):- columnai_aux(N,Tablero,[],Col).
-
-columnai_aux(_, [], Out, Col):- reverse(Out,Col).
-columnai_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
-   								 columnai_aux(N, Cola, [Val|Out], Col).
+extraer_columna_aux(_, [], Out, Col):- reverse(Out, Col).
+extraer_columna_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
+   								                extraer_columna_aux(N, Cola, [Val|Out], Col).
 
 prueba_extraer:- tablero_prueba(Tp),
     			columnai(1,Tp,Aux), 
     			imprimir_lista(Aux).
+
+% INSERTAR COLUMNA
+
+insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col)
 
 
 

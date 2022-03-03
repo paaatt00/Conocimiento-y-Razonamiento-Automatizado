@@ -11,6 +11,15 @@ tablero_prueba([[' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7],
                 [0, 0, 0, 0, 0, 0, 0]
                 ]).
 
+length_list(N, List) :- length(List, N), 
+    				 maplist(=('_'), List).
+
+generador_tablero(X, Y, Out):- %X=filas, Y=columnas, Out=tablero
+                            length(Out, Y),
+                            maplist(length_list(X), Out).
+
+prueba_gen_tablero:-generador_tablero(7,6,Out), imprimir_tablero(Out).
+
 imprimir_lista([]).
 imprimir_lista([X|Y]):- write(X), write(' '), imprimir_lista(Y). % TODO: no imprime bien dos espacios
 

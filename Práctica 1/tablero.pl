@@ -3,12 +3,12 @@
 % pintar un tablero pocho
 
 tablero_prueba([[' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0]
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_']
                 ]).
 
 length_list(N, List) :- length(List, N), 
@@ -67,7 +67,15 @@ prueba_leer:- leer_columna(X), write(X).
 
 
 
+columnai(N,Tablero,Col):- columnai_aux(N,Tablero,[],Col).
 
+columnai_aux(_, [], Out, Col):- reverse(Out,Col).
+columnai_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
+   								 columnai_aux(N, Cola, [Val|Out], Col).
+
+prueba_extraer:- tablero_prueba(Tp),
+    			columnai(1,Tp,Aux), 
+    			imprimir_lista(Aux).
 
 
 

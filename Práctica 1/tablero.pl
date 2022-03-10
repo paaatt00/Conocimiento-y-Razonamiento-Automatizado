@@ -1,14 +1,14 @@
 % ---------------------------- PRÁCTICA 1 CRA ----------------------------
 
-% TABLERO
-
-tablero_prueba([[' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_']
+% TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
+ 
+tablero_prueba([
+                ['a', '_', '_', '_', '_', '_', '_'],
+                ['b', '_', '_', '_', '_', '_', '_'],
+                ['c', '_', '_', '_', '_', '_', '_'],
+                ['d', '_', '_', '_', '_', '_', '_'],
+                ['e', '_', '_', '_', '_', '_', '_'],
+                ['f', '_', '_', '_', '_', '_', '_']
                 ]).
 
 % GENERADOR TABLERO
@@ -37,7 +37,7 @@ imprimir_lista_con_barra([X|Y]):- write(X), write(' | '),
 
 % GENERADOR GUIONES
 
-generador_lista_guiones(N, Out):- % N = entero, Out = lista de salida
+generador_lista_guiones(N, Out):- % N = entero, Out = lista de salidatb
                                 length(Out, N), % Genera una lista out, tal que su longitud es N
                                 maplist(=(-), Out).
 
@@ -88,24 +88,25 @@ extraer_columna_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
    								                extraer_columna_aux(N, Cola, [Val|Out], Col).
 
 prueba_extraer:- tablero_prueba(Tp),
-    			columnai(1,Tp,Aux), 
+    			columnai(1, Tp, Aux), 
     			imprimir_lista(Aux).
 
 % INSERTAR COLUMNA
 
-insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col)
+insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
 
+% TRASPUESTA
 
+traspuesta([[]|_], []).
+traspuesta(Matriz, [Fila|Filas]) :- traspuesta_1ra_col(Matriz, Fila, RestMatriz),
+                                traspuesta(RestMatriz, Filas).
+traspuesta_1ra_col([], [], []).
+traspuesta_1ra_col([[H|T]|Filas], [H|Hs], [T|Ts]) :- traspuesta_1ra_col(Filas, Hs, Ts).
 
+prueba_traspuesta:- tablero_prueba(Tp),
+                    traspuesta(Tp, Tp2),
+                    imprimir_mesa(Tp2),
+                    traspuesta(Tp2, Tp3),
+                    imprimir_mesa(Tp3).
 
-
-
-
-
-
-
-
-
-
-
-
+insertar_ficha(),

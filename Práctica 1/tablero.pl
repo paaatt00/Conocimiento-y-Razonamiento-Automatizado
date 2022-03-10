@@ -109,4 +109,4 @@ prueba_traspuesta:- tablero_prueba(Tp),
                     traspuesta(Tp2, Tp3),
                     imprimir_mesa(Tp3).
 
-insertar_ficha(),
+insertar_ficha(N,Tablero, TableroOut):-

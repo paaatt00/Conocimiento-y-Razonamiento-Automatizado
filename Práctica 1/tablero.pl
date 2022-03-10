@@ -88,12 +88,12 @@ extraer_columna_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
    								                extraer_columna_aux(N, Cola, [Val|Out], Col).
 
 prueba_extraer:- tablero_prueba(Tp),
-    			columnai(1, Tp, Aux), 
+    			extraer_columna(1, Tp, Aux), 
     			imprimir_lista(Aux).
 
 % INSERTAR COLUMNA
 
-insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
+%insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
 
 % TRASPUESTA
 
@@ -109,7 +109,7 @@ prueba_traspuesta:- tablero_prueba(Tp),
                     traspuesta(Tp2, Tp3),
                     imprimir_mesa(Tp3).
 
-insertar_ficha(N,Tablero, TableroOut):-
+insertar_ficha(N,Tablero, TableroOut).
 
 % MÉTODO PARA SUSTITUIR EN LA LISTA ARG1 LA POSICIÓN ARG2 POR EL ELEMENTO ARG3, RESULTANDO EN LA LISTA ARG4
 sustituir([_|T],1,X,[X|T]).
@@ -118,8 +118,15 @@ sustituir([H|T],I,X,[H|R]):-I1 is I-1, sustituir(T,I1,X,R).
 % INTRODUCE EN LA COLUMNA Columna DEL TABLERO T EL ELEMENTO J, RESULTANDO EN EL TABLERO T2
 introducir(T, Columna, J, T2):- nth1(Columna, T, C), primeraColumna(T, C, J, 6, _, L), sustituir(T, Columna, L, T2).
 
-primeraColumna(T, _, J, I, _, _):- J = mf, I is 0, cambiar_turno_maquina_facil('O', T).
+primeraColumna(T, _, J, I, _, _):- J = mf, I is 0).
 
-primeraColumna(T, _, J, I, _, _):- I is 0, write('Esa columna está llena.\n'), cambiar_turno(J, T).
+primeraColumna(T, _, J, I, _, _):- I is 0, write('Esa columna está llena.\n').
 primeraColumna(_, C, J, I, X, L):- nth1(I, C, X), X = ' ', !, (J = mf -> sustituir(C,I,'O',L);sustituir(C,I,J,L)).
 primeraColumna(T, C, J, I, X, L):- I1 is I-1, primeraColumna(T, C, J, I1, X, L).
+
+prueba_sustituir:- tablero_prueba(TP),
+    			   traspuesta(Tp, Tp2),
+    			   introducir(Tp2,2,'x',Tp3),
+    			   traspuesta(Tp3,Tp4),
+    			   imprimir_mesa(Tp4).
+

@@ -3,12 +3,12 @@
 % TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
  
 tablero_prueba([
-                ['a', '_', '_', '_', '_', '_', '_'],
-                ['b', '_', '_', '_', '_', '_', '_'],
-                ['c', '_', '_', '_', '_', '_', '_'],
-                ['d', '_', '_', '_', '_', '_', '_'],
-                ['e', '_', '_', '_', '_', '_', '_'],
-                ['f', '_', '_', '_', '_', '_', '_']
+                ['O', '_', '_', '_', '_', '_', '_'],
+                ['X', '_', '_', '_', '_', '_', '_'],
+                ['O', '_', '_', '_', '_', '_', '_'],
+                ['X', '_', '_', '_', '_', '_', '_'],
+                ['O', '_', '_', '_', '_', '_', '_'],
+                ['X', '_', '_', '_', '_', '_', '_']
                 ]).
 
 % GENERADOR TABLERO
@@ -16,11 +16,15 @@ tablero_prueba([
 length_list(N, List):- length(List, N), 
     				 maplist(=('_'), List).
 
-generador_tablero(X, Y, Out):- %X=filas, Y=columnas, Out=tablero
+generador_tablero(X, Y, Out):- % X = filas, Y = columnas, Out = tablero
                             length(Out, Y),
                             maplist(length_list(X), Out).
 
 prueba_gen_tablero:-generador_tablero(7,6,Out), imprimir_tablero(Out).
+
+% AA
+
+is_empty(List):- not(member(_,List)).
 
 % IMPRIMIR LISTA
 
@@ -54,9 +58,9 @@ imprimir_tablero([X|L]):- write('| '),
 % IMPRIMIR MESA
 
 imprimir_mesa([]):- nl.
-imprimir_mesa([X|L]):- imprimir_lista(X),nl,
-    			    generador_lista_guiones(15,L1), imprimir_lista(L1), nl,
-    				imprimir_tablero(L).
+imprimir_mesa(T):- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]), nl,
+    			generador_lista_guiones(15,L1), imprimir_lista(L1), nl,
+    			imprimir_tablero(T).
 
 % ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽
 
@@ -79,22 +83,6 @@ leer_columna(X):- write('Introduzca el numero de columna en el que quiere meter 
 
 prueba_leer:- leer_columna(X), write(X).
 
-% EXTRAER COLUMNA
-
-extraer_columna(N, Tablero, Col):- extraer_columna_aux(N, Tablero, [], Col).
-
-extraer_columna_aux(_, [], Out, Col):- reverse(Out, Col).
-extraer_columna_aux(N, [HeadTab|Cola], Out, Col):- nth1(N, HeadTab, Val),
-   								                extraer_columna_aux(N, Cola, [Val|Out], Col).
-
-prueba_extraer:- tablero_prueba(Tp),
-    			extraer_columna(1, Tp, Aux), 
-    			imprimir_lista(Aux).
-
-% INSERTAR COLUMNA
-
-%insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
-
 % TRASPUESTA
 
 traspuesta([[]|_], []).
@@ -109,24 +97,52 @@ prueba_traspuesta:- tablero_prueba(Tp),
                     traspuesta(Tp2, Tp3),
                     imprimir_mesa(Tp3).
 
-insertar_ficha(N,Tablero, TableroOut).
+% EXTRAER COLUMNA
 
-% MÉTODO PARA SUSTITUIR EN LA LISTA ARG1 LA POSICIÓN ARG2 POR EL ELEMENTO ARG3, RESULTANDO EN LA LISTA ARG4
-sustituir([_|T],1,X,[X|T]).
-sustituir([H|T],I,X,[H|R]):-I1 is I-1, sustituir(T,I1,X,R).
+extraer_columna(N, Tablero, Col):- extraer_columna_aux(N, Tablero, [], Col).
 
-% INTRODUCE EN LA COLUMNA Columna DEL TABLERO T EL ELEMENTO J, RESULTANDO EN EL TABLERO T2
-introducir(T, Columna, J, T2):- nth1(Columna, T, C), primeraColumna(T, C, J, 6, _, L), sustituir(T, Columna, L, T2).
+extraer_columna_aux(_, [], Out, Col):- reverse(Out, Col).
+extraer_columna_aux(N, [Cabecera|Cola], Out, Col):- nth1(N, Cabecera, Val),
+   								                    extraer_columna_aux(N, Cola, [Val|Out], Col).
 
-primeraColumna(T, _, J, I, _, _):- J = mf, I is 0.
+prueba_extraer:- tablero_prueba(Tp),
+    			extraer_columna(1, Tp, Aux), 
+    			imprimir_lista(Aux).
 
-primeraColumna(T, _, J, I, _, _):- I is 0, write('Esa columna está llena.\n').
-primeraColumna(_, C, J, I, X, L):- nth1(I, C, X), X = ' ', !, (J = mf -> sustituir(C,I,'O',L);sustituir(C,I,J,L)).
-primeraColumna(T, C, J, I, X, L):- I1 is I-1, primeraColumna(T, C, J, I1, X, L).
+% INSERTAR FICHA
 
-prueba_sustituir:- tablero_prueba(Tp),
-    			   traspuesta(Tp, Tp2),
-    			   introducir(Tp2,2,'x',Tp3),
-    			   traspuesta(Tp3,Tp4),
-    			   imprimir_mesa(Tp4).
+introducir(Col, F, Col2):- introducir_aux(Col, F, [], Col2).
+
+introducir_aux([], _, Out, Col2):- reverse(Out, Col2).
+introducir_aux([Cabecera|Cola], F, Out, Col2):- (
+                                                    Cabecera == '_',
+                                                    is_empty(Cola) -> introducir_aux(Cola, F, [F|Out], Col2)
+                                                ;
+                                                    is_empty(Cola) -> introducir_aux(Cola, F, [Cabecera|Out], Col2)
+                                                ;
+                                                    nth1(1, Cola, Siguiente),
+                                                    (
+                                                        Cabecera == '_',
+                                                        Siguiente \= '_' -> introducir_aux(Cola, F, [F|Out], Col2)
+                                                    ;   
+                                                        Cabecera == '_',
+                                                        Siguiente == '_' -> introducir_aux(Cola, F, [Cabecera|Out], Col2)
+                                                    ;   
+                                                        Cabecera \= '_' -> introducir_aux(Cola, F, [Cabecera|Out], Col2)   
+                                                    )
+                                                ).
+
+
+
+prueba_introducir:- tablero_prueba(Tp),
+                    traspuesta(Tp, Tp2),
+                    extraer_columna(1, Tp, Aux), 
+                    introducir(Aux, 'a', Aux1),
+                    imprimir_lista(Aux1).
+
+% INSERTAR COLUMNA
+
+% insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
+
+
 

@@ -3,12 +3,12 @@
 % TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
  
 tablero_prueba([
-                ['O', '_', '_', '_', '_', '_', '_'],
-                ['X', '_', '_', '_', '_', '_', '_'],
-                ['O', '_', '_', '_', '_', '_', '_'],
-                ['X', '_', '_', '_', '_', '_', '_'],
-                ['O', '_', '_', '_', '_', '_', '_'],
-                ['X', '_', '_', '_', '_', '_', '_']
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_'],
+                ['_', '_', '_', '_', '_', '_', '_']
                 ]).
 
 % GENERADOR TABLERO
@@ -111,34 +111,40 @@ prueba_extraer:- tablero_prueba(Tp),
 
 % INSERTAR FICHA
 
-introducir(Col, F, Col2):- introducir_aux(Col, F, [], Col2).
+introducir_ficha(Col, F, Col2):- introducir_ficha_aux(Col, F, [], Col2).
 
-introducir_aux([], _, Out, Col2):- reverse(Out, Col2).
-introducir_aux([Cabecera|Cola], F, Out, Col2):- (
+introducir_ficha_aux([], _, Out, Col2):- reverse(Out, Col2).
+introducir_ficha_aux([Cabecera|Cola], F, Out, Col2):- (
                                                     Cabecera == '_',
-                                                    is_empty(Cola) -> introducir_aux(Cola, F, [F|Out], Col2)
+                                                    is_empty(Cola) -> introducir_ficha_aux(Cola, F, [F|Out], Col2)
                                                 ;
-                                                    is_empty(Cola) -> introducir_aux(Cola, F, [Cabecera|Out], Col2)
+                                                    is_empty(Cola) -> introducir_ficha_aux(Cola, F, [Cabecera|Out], Col2)
                                                 ;
                                                     nth1(1, Cola, Siguiente),
                                                     (
                                                         Cabecera == '_',
-                                                        Siguiente \= '_' -> introducir_aux(Cola, F, [F|Out], Col2)
+                                                        Siguiente \= '_' -> introducir_ficha_aux(Cola, F, [F|Out], Col2)
                                                     ;   
                                                         Cabecera == '_',
-                                                        Siguiente == '_' -> introducir_aux(Cola, F, [Cabecera|Out], Col2)
+                                                        Siguiente == '_' -> introducir_ficha_aux(Cola, F, [Cabecera|Out], Col2)
                                                     ;   
-                                                        Cabecera \= '_' -> introducir_aux(Cola, F, [Cabecera|Out], Col2)   
+                                                        Cabecera \= '_' -> introducir_ficha_aux(Cola, F, [Cabecera|Out], Col2)   
                                                     )
                                                 ).
 
-
-
-prueba_introducir:- tablero_prueba(Tp),
+prueba_introducir_ficha:- tablero_prueba(Tp),
                     traspuesta(Tp, Tp2),
                     extraer_columna(1, Tp, Aux), 
-                    introducir(Aux, 'a', Aux1),
+                    introducir(Aux, 'X', Aux1),
                     imprimir_lista(Aux1).
+
+% INTRODUCIR COLUMNA
+
+introducir_col(N, Tablero, Col):- introducir_col_aux(N, Tablero, [], Col).
+
+introducir_col_aux(_, Tablero, [], Col):- 
+
+
 
 % INSERTAR COLUMNA
 

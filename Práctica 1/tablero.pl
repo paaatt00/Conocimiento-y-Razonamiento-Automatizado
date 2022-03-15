@@ -3,7 +3,7 @@
 % TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
  
 tablero_prueba([
-                ['_', '_', '_', '_', '_', '_', '_'],
+                ['x', 'x', 'o', 'x', 'x', 'o', 'x'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
@@ -142,7 +142,7 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
 
 introducir_col(N, Tablero, Col):- introducir_col_aux(N, Tablero, [], Col).
 
-introducir_col_aux(_, Tablero, [], Col):- 
+introducir_col_aux(_, Tablero, [], Col):- .
 
 
 
@@ -150,5 +150,25 @@ introducir_col_aux(_, Tablero, [], Col):-
 
 % insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
 
+%COMPROBAR FILA
+%llamar con Anterior='_' la primera vez
+comprobar_fila([],_,_):- false.  
+comprobar_fila([Actual|Resto_fila],Anterior,Contador):-  %imprimir_lista([Actual|Resto_fila]), write(Contador),nl,
+    													(Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, %Si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
+                                                            (   
+                                                            	Contador2 == 4 ->  write('Victoria, has ganado') %Si el contador llega a 4, alguien gana
+                                                            ;   
+                                                            	Contador2 \= 4 ->  comprobar_fila(Resto_fila, Actual, Contador2)%si no es 4, seguimos buscando
+                                                            )
+                                                        ;
+                                                        (Actual \= Anterior ; Actual=='_') -> Contador2 is 1,comprobar_fila(Resto_fila, Actual, Contador2)%Caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
+                                                       %|________________________________|<- esto es un Or, creo que es feo pero funciona 
+                                                        ).
+
+prueba_comprobar:-tablero_prueba(Tp),
+    			  imprimir_tablero(Tp),nl,
+    			  nth1(2, Tp, Fila),
+    			  imprimir_lista(Fila),nl,nl,
+    			  comprobar_fila(Fila,'_',1).
 
 

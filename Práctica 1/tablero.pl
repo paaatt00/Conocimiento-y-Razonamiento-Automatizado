@@ -151,7 +151,7 @@ introducir_col_aux(_, Tablero, [], Col):- .
 % insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
 
 %COMPROBAR FILA
-%llamar con Anterior='_' la primera vez
+%llamar con Anterior='_' la primera vez, o cualquier termino uqe no sea una ficha
 comprobar_fila([],_,_):- false.  
 comprobar_fila([Actual|Resto_fila],Anterior,Contador):-  %imprimir_lista([Actual|Resto_fila]), write(Contador),nl,
     													(Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, %Si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador

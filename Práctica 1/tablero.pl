@@ -73,12 +73,22 @@ imprimir_mesa(T):- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 
 
 prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp).
 
+%COMPROBAR SI UNA COLUMNA ESTÁ LLENA
+
+columna_llena(Columna,Tablero):-nth1(Columna,Tablero,Fila),
+                                not(nth1(1,Fila,'_'))
+                            .
+
 % LEER COLUMNA
 
-leer_columna(X,Lista_columnas):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
+leer_columna(X,Lista_columnas,Tablero):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
     			read(Y),
-    			(   not(member(Y,Lista_columas))->  write('Respuesta inválida, conteste nuevamente.'), nl, 
-       				leer_columna(X,Lista_columnas);
+    			(   not(member(Y,Lista_columas)) ->  write('Columna fuera de rango, conteste nuevamente.'), nl, 
+       				leer_columna(X,Lista_columnas,Tablero)
+                ;
+                    columna_llena(Y,Tablero) -> write('Columna llena, conteste nuevamente.'), nl, 
+                    leer_columna(X,Lista_columnas,Tablero)
+                ;
                     X = Y
    				).
 
@@ -172,6 +182,16 @@ prueba_comprobar:-tablero_prueba(Tp),
     			  imprimir_lista(Fila),nl,nl,
     			  comprobar_fila(Fila,'_',1).
 
+% Comprobar si algún jugador ha ganado la partida
+comprobar_victoria(Tablero):-comprobar_victoria_aux(Tablero),%Comprueba filas
+                      traspuesta(Tablero, TableroTras),
+                      comprobar_victoria_aux(Tablero2)%comprueba Columnas
+                    .
+                    
+comprobar_victoria_aux([]):-false.
+comprobar_victoria_aux([Fila|Resto]):-comprobar_fila(Fila,'_',1),comprobar_victoria_aux(Resto).
+
+.
 % JUGAR
 jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl
     	read(Filas),
@@ -183,6 +203,24 @@ jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl
     	%Ya está el tablero generado, hay que guardarlo y pasarlo a todo,
     	%además de conservar y usar la lista de columnas, falta hacer
     	%jugando que haga todo lo que ha de hacer
+
     	.
 
+jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador'),write(Jugador),nl,
+                                          leer_columna(Columna,Lista_columnas,Tablero),
+                                          extraer_columna(Columna, Tablero, Col),
+                                          %TRASPUESTA
+                                          introducir_ficha(Col, Jugador, Col2),
+                                          introducir_col(),
+                                          
+                                          
+                                          
+                                          
+                                          comprobar_victoria(Tablero),
+                                          (
+                                            Jugador=='x'->Jugador2 is 'o'
+                                          ;
+                                            Jugador=='o'->Jugador2 is 'x'
+                                          )
+                                          jugando(Tablero,Lista_columas,Jugador2).
 

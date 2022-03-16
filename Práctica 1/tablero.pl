@@ -22,6 +22,13 @@ generador_tablero(X, Y, Out):- % X = filas, Y = columnas, Out = tablero
 
 prueba_gen_tablero:-generador_tablero(7,6,Out), imprimir_tablero(Out).
 
+%genera una lista que contendrá los numero de columna validos
+gen_lista_columnas(1, [1]).
+gen_lista_columnas(Columna, [Columna|Cola]) :-
+    Columna > 1,
+    Columna2 is Columna-1,
+    gen_lista_columnas(Columna2, Cola).
+
 % AA
 
 is_empty(List):- not(member(_,List)).
@@ -68,20 +75,14 @@ prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp).
 
 % LEER COLUMNA
 
-leer_columna(X):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
+leer_columna(X,Lista_columnas):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
     			read(Y),
-    			(   Y \= 1,
-      				Y \= 2,
-                    Y \= 3,
-                    Y \= 4,
-                    Y \= 5,
-                    Y \= 6,
-                    Y \= 7 ->  write('Respuesta inválida, conteste nuevamente.'), nl, 
-       				leer_columna(X);
+    			(   not(member(Y,Lista_columas))->  write('Respuesta inválida, conteste nuevamente.'), nl, 
+       				leer_columna(X,Lista_columnas);
                     X = Y
    				).
 
-prueba_leer:- leer_columna(X), write(X).
+prueba_leer:- gen_lista_columnas(7,Lista_columnas),leer_columna(X,Lista_columnas), write(X).
 
 % TRASPUESTA
 
@@ -170,5 +171,18 @@ prueba_comprobar:-tablero_prueba(Tp),
     			  nth1(2, Tp, Fila),
     			  imprimir_lista(Fila),nl,nl,
     			  comprobar_fila(Fila,'_',1).
+
+% JUGAR
+jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl
+    	read(Filas),
+      	write('Introduzca el número de columnas con las que quiere jugar'),nl
+      	read(Columnas),
+      	generar_tablero(Filas,Columnas,Tablero),
+       	imprimir_tablero(Tablero),nl,
+    	gen_lista_columnas(Columnas, Lista_columnas)
+    	%Ya está el tablero generado, hay que guardarlo y pasarlo a todo,
+    	%además de conservar y usar la lista de columnas, falta hacer
+    	%jugando que haga todo lo que ha de hacer
+    	.
 
 

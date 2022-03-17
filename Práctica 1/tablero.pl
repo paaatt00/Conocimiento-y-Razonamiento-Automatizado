@@ -82,7 +82,7 @@ columna_llena(Columna,Tablero):-nth1(Columna,Tablero,Fila),
 
 leer_columna(X, Lista_columnas, Tablero):- write('Introduzca el numero de columna en el que quiere meter su ficha:'),
                                         read(Y),
-                                        (   not(member(Y,Lista_columas)) ->  write('Columna fuera de rango, conteste nuevamente.'), nl, 
+                                        (   not(member(Y,Lista_columnas)) ->  write('Columna fuera de rango, conteste nuevamente.'), nl, 
                                             leer_columna(X,Lista_columnas,Tablero)
                                         ;
                                             columna_llena(Y,Tablero) -> write('Columna llena, conteste nuevamente.'), nl, 
@@ -145,14 +145,14 @@ introducir_ficha_aux([Cabecera|Cola], F, Out, Col2):- (Cabecera == '_', is_empty
 
 prueba_introducir_ficha:- tablero_prueba(Tp),
                         traspuesta(Tp, Tp2),
-                        extraer_columna(1, Tp, Aux), 
+                        extraer_columna(1, Tp2, Aux), 
                         introducir(Aux, 'X', Aux1),
                         imprimir_lista(Aux1).
 
 % INTRODUCIR COLUMNA
 
 introducir_col(Col, Tablero_in, N, Tablero_out):- traspuesta(Tablero_in,Tablero2),
-                                            introducir_col_aux(Tablero2, N,1, [], Tablero_aux),
+                                            introducir_col_aux(Tablero2, Col, N,1, [], Tablero_aux),
                                             traspuesta(Tablero_aux, Tablero_out).
 
 introducir_col_aux([], _, _, Tablero_out, Tablero_acumulado):- reverse(Tablero_acumulado,Tablero_out).
@@ -227,5 +227,5 @@ jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador')
                                             ;
                                                 Jugador == 'o' -> Jugador2 is 'x'
                                             ), 
-                                            jugando(Tablero, Lista_columas, Jugador2)
+                                            jugando(Tablero, Lista_columnas, Jugador2)
                                         ).

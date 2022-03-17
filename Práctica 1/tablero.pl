@@ -220,9 +220,11 @@ jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador')
                                         leer_columna(Columna, Lista_columnas, Tablero),
                                         extraer_columna(Columna, Tablero, Col),
                                         % TRASPUESTA
-                                        introducir_ficha(Col, Jugador, Col2),
-                                        introducir_col(),                                
-                                          
+                                        introducir_ficha(Col, Jugador, Col2),                          
+                                        introducir_col(Col2,Tablero, Columna, Tablero2),    
+
+
+
                                         (comprobar_victoria(Tablero) -> write('Ha ganado el jugador'), write(Jugador)
                                         ;
                                             (

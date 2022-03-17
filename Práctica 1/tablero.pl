@@ -152,18 +152,21 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
 % INTRODUCIR COLUMNA
 
 introducir_col(Col, Tablero_in, N, Tablero_out):- traspuesta(Tablero_in,Tablero2),
-                                            introducir_col_aux(Tablero2, Col, N,1, [], Tablero_aux),
-                                            traspuesta(Tablero_aux, Tablero_out).
+                                            introducir_col_aux(Tablero2, Col, N,1, Tablero_aux, []),
+    										traspuesta(Tablero_aux, Tablero_out).
 
-introducir_col_aux([], _, _, Tablero_out, Tablero_acumulado):- reverse(Tablero_acumulado,Tablero_out).
+introducir_col_aux([],_, _, _, Tablero_out, Tablero_acumulado):- reverse(Tablero_acumulado,Tablero_out).
 introducir_col_aux([Fila|Resto], Col, N, Contador, Tablero_out, Tablero_acumulado):- (
-                                                                                N==Contador->Contador2 is Contador + 1,
+                                                                                N==Contador->Contador2 is Contador+1,
                                                                                 introducir_col_aux(Resto, Col, N,Contador2,Tablero_out,[Col|Tablero_acumulado])
                                                                                 ;
-                                                                                N\=Contador->Contador2 is Contador + 1,
-                                                                                introducir_col_aux(Resto,N,Contador2,Tablero_out,[Fila|Tablero_acumulado])
+                                                                                N\=Contador->Contador2 is Contador+1,
+                                                                                introducir_col_aux(Resto,Col, N,Contador2,Tablero_out,[Fila|Tablero_acumulado])
                                                                                 ).
-
+prueba_introducir_col:- tablero_prueba(Tp),
+    					%imprimir_mesa(Tp),nl,
+    					introducir_col(['o', 'x', 'o', 'x', 'x', 'o'],Tp, 3, TOut),
+   						imprimir_mesa(TOut).
 
 % COMPROBAR FILA
 
@@ -223,9 +226,9 @@ jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador')
                                         (comprobar_victoria(Tablero) -> write('Ha ganado el jugador'), write(Jugador)
                                         ;
                                             (
-                                                Jugador == 'x' -> Jugador2 is 'o'
+                                                Jugador == 'x' -> Jugador2 = 'o'
                                             ;
-                                                Jugador == 'o' -> Jugador2 is 'x'
+                                                Jugador == 'o' -> Jugador2 = 'x'
                                             ), 
                                             jugando(Tablero, Lista_columnas, Jugador2)
                                         ).

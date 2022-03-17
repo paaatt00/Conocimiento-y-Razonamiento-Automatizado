@@ -151,11 +151,19 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
 
 % INTRODUCIR COLUMNA
 
-introducir_col(Tablero_in, N, Tablero_out):- traspuesta(Tablero_in,Tablero2),
-                                            introducir_col_aux(Tablero2, N, [], Tablero_aux),
+introducir_col(Col, Tablero_in, N, Tablero_out):- traspuesta(Tablero_in,Tablero2),
+                                            introducir_col_aux(Tablero2, N,1, [], Tablero_aux),
                                             traspuesta(Tablero_aux, Tablero_out).
 
-introducir_col_aux(_, Tablero, [], Col):- .
+introducir_col_aux([], _, _, Tablero_out, Tablero_acumulado):- reverse(Tablero_acumulado,Tablero_out).
+introducir_col_aux([Fila|Resto], Col, N, Contador, Tablero_out, Tablero_acumulado):- (
+                                                                                N==Contador->Contador2 is Contador + 1,
+                                                                                introducir_col_aux(Resto, Col, N,Contador2,Tablero_out,[Col|Tablero_acumulado])
+                                                                                ;
+                                                                                N\=Contador->Contador2 is Contador + 1,
+                                                                                introducir_col_aux(Resto,N,Contador2,Tablero_out,[Fila|Tablero_acumulado])
+                                                                                ).
+
 
 % COMPROBAR FILA
 

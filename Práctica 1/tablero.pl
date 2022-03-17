@@ -153,18 +153,13 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
 
 % INTRODUCIR COLUMNA
 
-introducir_col(N, Tablero, Col):- introducir_col_aux(N, Tablero, [], Col).
+introducir_col(Tablero_in, N, Tablero_out):- traspuesta(Tablero_in,Tablero2),
+                                             introducir_col_aux(Tablero2, N, [], Tablero_aux),
+                                             traspuesta(Tablero_aux, Tablero_out).
 
 introducir_col_aux(_, Tablero, [], Col):- .
 
-
-
-% INSERTAR COLUMNA
-
-% insertar_columna(N, Tablero, Col):- insertar_columna_aux(N, Tablero, [], Col).
-
 % COMPROBAR FILA
-% llamar con Anterior='_' la primera vez, o cualquier termino uqe no sea una ficha
 
 comprobar_fila([], _, _):- false.  
 comprobar_fila([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
@@ -185,7 +180,7 @@ prueba_comprobar:- tablero_prueba(Tp),
     			   imprimir_lista(Fila),nl,nl,
     			   comprobar_fila(Fila, '_', 1).
 
-% Comprobar si algún jugador ha ganado la partida
+% COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero), % comprueba filas
                               traspuesta(Tablero, TableroTras),
                               comprobar_victoria_aux(Tablero2) % comprueba Columnas
@@ -194,11 +189,12 @@ comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero), % comprueba filas
 comprobar_victoria_aux([]):-false.
 comprobar_victoria_aux([Fila|Resto]):-comprobar_fila(Fila,'_',1),comprobar_victoria_aux(Resto).
 
-.
+
 % JUGAR
-jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl
+
+jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl,
     	read(Filas),
-      	write('Introduzca el número de columnas con las que quiere jugar'),nl
+      	write('Introduzca el número de columnas con las que quiere jugar'),nl,
       	read(Columnas),
       	generar_tablero(Filas,Columnas,Tablero),
        	imprimir_tablero(Tablero),nl,
@@ -209,21 +205,22 @@ jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl
 
     	.
 
+% JUGANDO
+
 jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador'),write(Jugador),nl,
-                                          leer_columna(Columna,Lista_columnas,Tablero),
-                                          extraer_columna(Columna, Tablero, Col),
-                                          %TRASPUESTA
-                                          introducir_ficha(Col, Jugador, Col2),
-                                          introducir_col(),
+                                        leer_columna(Columna,Lista_columnas,Tablero),
+                                        extraer_columna(Columna, Tablero, Col),
+                                        % TRASPUESTA
+                                        introducir_ficha(Col, Jugador, Col2),
+                                        introducir_col(),                                
                                           
-                                          
-                                          
-                                          
-                                          comprobar_victoria(Tablero),
-                                          (
-                                            Jugador == 'x' -> Jugador2 is 'o'
-                                          ;
-                                            Jugador == 'o' -> Jugador2 is 'x'
-                                          )
-                                          jugando(Tablero,Lista_columas,Jugador2).
+                                        (comprobar_victoria(Tablero)->write('Ha ganado el jugador'),write(Jugador)
+                                        ;
+                                            (
+                                                Jugador == 'x' -> Jugador2 is 'o'
+                                            ;
+                                                Jugador == 'o' -> Jugador2 is 'x'
+                                            )
+                                            jugando(Tablero,Lista_columas,Jugador2)
+                                        ).
 

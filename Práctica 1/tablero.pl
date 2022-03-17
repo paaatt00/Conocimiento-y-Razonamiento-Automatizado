@@ -190,12 +190,12 @@ comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1), comprobar_v
 
 % JUGAR
 
-jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl,
+jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
     	read(Filas),
-      	write('Introduzca el número de columnas con las que quiere jugar'),nl,
+      	write('Introduzca el número de columnas con las que quiere jugar: '), nl,
       	read(Columnas),
-      	generar_tablero(Filas,Columnas,Tablero),
-       	imprimir_tablero(Tablero),nl,
+      	generador_tablero(Filas, Columnas, Tablero),
+       	imprimir_tablero(Tablero), nl,
     	gen_lista_columnas(Columnas, Lista_columnas)
     	% Ya está el tablero generado, hay que guardarlo y pasarlo a todo,
     	% además de conservar y usar la lista de columnas, falta hacer
@@ -205,14 +205,14 @@ jugar:- write('Introduzca el numero de filas con las que quiere jugar'),nl,
 
 % JUGANDO
 
-jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador'),write(Jugador),nl,
-                                        leer_columna(Columna,Lista_columnas,Tablero),
+jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador'), write(Jugador), nl,
+                                        leer_columna(Columna, Lista_columnas, Tablero),
                                         extraer_columna(Columna, Tablero, Col),
                                         % TRASPUESTA
                                         introducir_ficha(Col, Jugador, Col2),
                                         introducir_col(),                                
                                           
-                                        (comprobar_victoria(Tablero)->write('Ha ganado el jugador'),write(Jugador)
+                                        (comprobar_victoria(Tablero) -> write('Ha ganado el jugador'), write(Jugador)
                                         ;
                                             (
                                                 Jugador == 'x' -> Jugador2 is 'o'

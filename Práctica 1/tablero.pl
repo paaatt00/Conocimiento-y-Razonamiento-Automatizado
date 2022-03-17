@@ -176,7 +176,7 @@ comprobar_fila([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actu
                                                             (   
                                                                 Contador2 == 4 ->  write('Victoria, has ganado') % si el contador llega a 4, alguien gana
                                                             ;   
-                                                                Contador2 \= 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
+                                                                Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
                                                             )
                                                         ;
                                                         (Actual \= Anterior ; Actual=='_') -> Contador2 is 1,comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
@@ -192,7 +192,7 @@ prueba_comprobar:- tablero_prueba(Tp),
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero), % comprueba filas
                             traspuesta(Tablero, TableroTras),
-                            comprobar_victoria_aux(Tablero2) % comprueba Columnas
+                            comprobar_victoria_aux(TableroTras) % comprueba Columnas
                             .
                     
 comprobar_victoria_aux([]):- false.
@@ -206,8 +206,9 @@ jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
       	write('Introduzca el número de columnas con las que quiere jugar: '), nl,
       	read(Columnas),
       	generador_tablero(Filas, Columnas, Tablero),
-       	imprimir_tablero(Tablero), nl,
-    	gen_lista_columnas(Columnas, Lista_columnas)
+       	imprimir_mesa(Tablero), nl,
+    	gen_lista_columnas(Columnas, Lista_columnas),
+        jugando(Tablero, Lista_columnas, 'x')
     	% Ya está el tablero generado, hay que guardarlo y pasarlo a todo,
     	% además de conservar y usar la lista de columnas, falta hacer
     	% jugando que haga todo lo que ha de hacer
@@ -216,21 +217,20 @@ jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
 
 % JUGANDO
 
-jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador'), write(Jugador), nl,
+jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
                                         leer_columna(Columna, Lista_columnas, Tablero),
                                         extraer_columna(Columna, Tablero, Col),
                                         % TRASPUESTA
                                         introducir_ficha(Col, Jugador, Col2),                          
-                                        introducir_col(Col2,Tablero, Columna, Tablero2),    
+                                        introducir_col(Col2, Tablero, Columna, Tablero2),    
 
-
-
-                                        (comprobar_victoria(Tablero) -> write('Ha ganado el jugador'), write(Jugador)
+                                        imprimir_mesa(Tablero2),
+                                        (comprobar_victoria(Tablero2) -> write('Ha ganado el jugador '), write(Jugador)
                                         ;
                                             (
                                                 Jugador == 'x' -> Jugador2 = 'o'
                                             ;
                                                 Jugador == 'o' -> Jugador2 = 'x'
                                             ), 
-                                            jugando(Tablero, Lista_columnas, Jugador2)
+                                            jugando(Tablero2, Lista_columnas, Jugador2)
                                         ).

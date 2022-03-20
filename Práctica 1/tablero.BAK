@@ -222,7 +222,7 @@ comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero); % comprueba filas
                             .
 
 comprobar_victoria_aux([]):- false.
-comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1), comprobar_victoria_aux(Resto).
+comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_victoria_aux(Resto).    %se pone OR para que devuelva true en caso de que encuentre victoria y no recorra los demas
 
 
 % JUGAR

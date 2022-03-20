@@ -7,10 +7,10 @@
 tablero_prueba([
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_'],
-                ['_', '_', '_', '_', '_', '_', '_']
+                ['_', '_', '_', 'x', '_', '_', '_'],
+                ['_', '_', 'x', '_', 'x', '_', '_'],
+                ['_', 'x', '_', '_', '_', 'x', '_'],
+                ['x', '_', '_', '_', '_', '_', 'x']
                 ]).
 
 % ______________________________________________________________________________________%
@@ -237,11 +237,47 @@ comprobar_fila([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actu
                                                             % |______________________________|<- esto es un Or, creo que es feo pero funciona
                                                         ).
 
-prueba_comprobar:- tablero_prueba(Tp),
-             imprimir_tablero(Tp), nl,
-             nth1(2, Tp, Fila),
-             imprimir_lista(Fila), nl, nl,
-             comprobar_fila(Fila, '_', 1).
+% prueba_comprobar:- tablero_prueba(Tp),
+%              imprimir_tablero(Tp), nl,
+%              nth1(2, Tp, Fila),
+%              imprimir_lista(Fila), nl, nl,
+%              comprobar_fila(Fila, '_', 1).
+
+% comprobar_diagonal([Actual|Resto], Anterior, Contador, Lista_columnas):- 
+%                                                 (
+%                                                     extraer_posicion()
+%                                                     comprobar_diagonal(Resto)
+%                                                     Contador == 4 -> write('ganas')
+%                                                 ;
+
+                                                    
+%                                                 ).
+
+% comprobar_diagonal_aux(Tablero, Contador, Col):-
+
+% diagonal tipo \
+comprobar_diagonal1(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), % check if 4 connected columns exists in board...
+                                append(I1, [X|_], C1), % ...such that all of them contain a piece of player X...
+                                append(I2, [X|_], C2),
+                                append(I3, [X|_], C3),
+                                append(I4, [X|_], C4),
+                                length(I1, M1), length(I2, M2), length(I3, M3), length(I4, M4),
+                                M2 is M1+1, M3 is M2+1, M4 is M3+1.
+
+% diagonal tipo / 
+comprobar_diagonal2(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), % check if 4 connected columns exists in board...
+                                append(I1, [X|_], C1), % ...such that all of them contain a piece of player X...
+                                append(I2, [X|_], C2),
+                                append(I3, [X|_], C3),
+                                append(I4, [X|_], C4),
+                                length(I1, M1), length(I2, M2), length(I3, M3), length(I4, M4),
+                                M2 is M1-1, M3 is M2-1, M4 is M3-1.
+
+prueba_diagonales:- tablero_prueba(Tp),
+            comprobar_diagonal1('x', Tp),
+            comprobar_diagonal2('x', Tp).
+
+
 
 % RESPUESTA_ALEATORIA: función que escoge una columna aleatoria para la máquina.
 
@@ -286,19 +322,21 @@ respuesta_aleatoria(Lista_columnas, Tablero, Col_rand):- random_member(Col, List
 
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 
-comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero); % comprueba filas
+comprobar_victoria(Jugador, Tablero):- comprobar_diagonal1(Jugador, Tablero);
+                            comprobar_diagonal2(Jugador, Tablero);
+                            comprobar_victoria_aux(Tablero); % comprueba filas
                             traspuesta(Tablero, TableroTras),
                             comprobar_victoria_aux(TableroTras). % comprueba Columnas
 
 comprobar_victoria_aux([]):- false.
-comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_victoria_aux(Resto).    %se pone OR para que devuelva true en caso de que encuentre victoria y no recorra los demas
+comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_victoria_aux(Resto). % se pone OR para que devuelva true en caso de que encuentre victoria y no recorra los demas
 
 
 % JUGAR (JUGADOR CONTRA JUGADOR)
 
 jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
         read(Filas),
-        write('Introduzca el número de columnas con las que quiere jugar: '), nl,
+        write('Introduzca el numero de columnas con las que quiere jugar: '), nl,
         read(Columnas),
         generador_tablero(Filas, Columnas, Tablero),
         imprimir_mesa(Tablero), nl,
@@ -315,7 +353,7 @@ jugando(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador
 
                                             imprimir_mesa(Tablero2),
                                             (
-                                                comprobar_victoria(Tablero2) -> nl, write('                              Ha ganado el jugador '), write(Jugador), nl
+                                                comprobar_victoria(Jugador, Tablero2) -> nl, write('                              Ha ganado el jugador '), write(Jugador), nl
                                             ;
                                                 (
                                                     Jugador == 'x' -> Jugador2 = 'o'

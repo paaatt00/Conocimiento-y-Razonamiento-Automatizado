@@ -29,7 +29,7 @@ jugando_maquina_simple(Tablero, Lista_columnas, Jugador):-  write('Comienza el t
 
                                             imprimir_mesa(Tablero2),
                                             (
-                                                comprobar_victoria(Tablero2) -> write('Ha ganado el jugador '), write(Jugador)
+                                                comprobar_victoria(Tablero2) -> nl, write('                              Ha ganado el jugador '), write(Jugador), nl
                                             ;
                                                 (
                                                     Jugador == 'x' -> Jugador2 = 'o'

@@ -5,7 +5,7 @@
 % TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
 
 tablero_prueba([
-                ['_', '_', '_', '_', 'x', 'o', 'x'],
+                ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
@@ -259,30 +259,30 @@ respuesta_aleatoria(Lista_columnas, Tablero, Col_rand):- random_member(Col, List
 
 
 % ESTRATEGIA AVANZADA
-estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
-                                                        (
-                                                            Actual == Anterior, Actual == 'o' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
-                                                            (
-                                                                Contador2 == 4 ->  write('')
-                                                            ;
-                                                                Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
-                                                            )
-                                                        ;
-                                                            (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
+% estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
+%                                                         (
+%                                                             Actual == Anterior, Actual == 'o' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
+%                                                             (
+%                                                                 Contador2 == 4 ->  write('')
+%                                                             ;
+%                                                                 Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
+%                                                             )
+%                                                         ;
+%                                                             (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
                                                             
-estrategia_maquina_columnas([Actual|Resto_fila], Tablero, Contador, [Contadores]):-  
-                        (
-                            Actual == Anterior, Actual == 'o'  -> Contador2 is Contador+1
-                            (
-                                1 < Contador2, Contador2 < 4 -> estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
-                                ;
-                                Contador2 =< 4 ->  
+% estrategia_maquina_columnas([Actual|Resto_fila], Tablero, Contador, [Contadores]):-  
+%                         (
+%                             Actual == Anterior, Actual == 'o'  -> Contador2 is Contador+1
+%                             (
+%                                 1 < Contador2, Contador2 < 4 -> estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
+%                                 ;
+%                                 Contador2 =< 4 ->  
 
-                            )
-                        ;
-                            (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
+%                             )
+%                         ;
+%                             (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
 
-                        ).                                                          
+%                         ).                                                          
 
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 
@@ -315,7 +315,7 @@ jugando(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador
 
                                             imprimir_mesa(Tablero2),
                                             (
-                                                comprobar_victoria(Tablero2) -> write('Ha ganado el jugador '), write(Jugador)
+                                                comprobar_victoria(Tablero2) -> nl, write('                              Ha ganado el jugador '), write(Jugador), nl
                                             ;
                                                 (
                                                     Jugador == 'x' -> Jugador2 = 'o'

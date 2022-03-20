@@ -1,9 +1,11 @@
- %---------------------------- PRÁCTICA 1 CRA ----------------------------
+% ______________________________________________________________________________________%
+% ___________________________PRÁCTICA 1 - CRA___________________________________________%
+% ______________________________________________________________________________________%
 
 % TABLERO [' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]
 
 tablero_prueba([
-                ['x', 'x', 'o', 'x', 'x', 'o', 'x'],
+                ['_', '_', '_', '_', 'x', 'o', 'x'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
                 ['_', '_', '_', '_', '_', '_', '_'],
@@ -11,27 +13,42 @@ tablero_prueba([
                 ['_', '_', '_', '_', '_', '_', '_']
                 ]).
 
+% ______________________________________________________________________________________%
+
 % GENERADOR TABLERO
 
 length_list(N, List):- length(List, N),
             maplist(=('_'), List).
 
-generador_tablero(X, Y, Out):- % X = filas, Y = columnas, Out = tablero
+generador_tablero(Y, X, Out):- % Y = filas, X = columnas, Out = tablero
                             length(Out, Y),
                             maplist(length_list(X), Out).
 
-prueba_gen_tablero:- generador_tablero(7, 6, Out),
-                    imprimir_tablero(Out).
+% prueba_gen_tablero:- generador_tablero(7, 6, Out),
+%                     imprimir_tablero(Out).
 
-% genera una lista que contendrá los numero de columna validos
+% GENERADOR Nº COLUMNA VÁLIDOS
+
 gen_lista_columnas(1, [1]).
 gen_lista_columnas(Columna, [Columna|Cola]) :- Columna > 1,
                                             Columna2 is Columna-1,
                                             gen_lista_columnas(Columna2, Cola).
 
-% AA
+% GENERADOR GUIONES
+
+generador_lista_guiones(N, Out):- % N = entero, Out = lista de salidatb
+                                length(Out, N), % Genera una lista out, tal que su longitud es N
+                                maplist(=(-), Out).
+
+prueba_guiones:- generador_lista_guiones(15,Y), imprimir_lista(Y).
+
+% ______________________________________________________________________________________%
+
+% LISTA VACÍA
 
 is_empty(List):- not(member(_, List)).
+
+% ______________________________________________________________________________________%
 
 % IMPRIMIR LISTA
 
@@ -45,14 +62,6 @@ prueba_impresion:- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 
 imprimir_lista_con_barra([]).
 imprimir_lista_con_barra([X|Y]):- write(X), write(' | '),
                                 imprimir_lista_con_barra(Y).
-
-% GENERADOR GUIONES
-
-generador_lista_guiones(N, Out):- % N = entero, Out = lista de salidatb
-                                length(Out, N), % Genera una lista out, tal que su longitud es N
-                                maplist(=(-), Out).
-
-prueba_guiones:- generador_lista_guiones(15,Y), imprimir_lista(Y).
 
 % IMPRIMIR TABLERO
 
@@ -72,6 +81,8 @@ imprimir_mesa(T):- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 
 % ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽
 
 prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp).
+
+% ______________________________________________________________________________________%
 
 % EXTRAER FILA
 
@@ -95,20 +106,19 @@ extraer_columna_aux(N, [Cabecera|Cola], Out, Col):- nth1(N, Cabecera, Val),
 
 % EXTRAER POSICIÓN
 
-extraer_posicion(X, Y, Tablero, Elem):- extraer_fila(X, Tablero, Fila),
-                                        nth1(Y, Fila, Elem).
+extraer_posicion(Y, X, Tablero, Elem):- extraer_fila(Y, Tablero, Fila),
+                                        nth1(X, Fila, Elem).
 
 prueba_extraer_posicion:- tablero_prueba(Tp),
                          extraer_posicion(1, 3, Tp, Elem),
                          write(Elem).
 
-%COMPROBAR SI UNA COLUMNA ESTÁ LLENA
+% ______________________________________________________________________________________%
+
+% COMPROBAR SI UNA COLUMNA ESTÁ LLENA
 
 columna_llena(X, Tablero):- extraer_posicion(1, X, Tablero, Elem),
                             (Elem \= '_') -> write('Columna llena').
-
-% contar_profundidad([], 0).
-% contar_profundidad([X|_], 0):- X \= '_'
 
 % LEER COLUMNA
 
@@ -124,9 +134,9 @@ leer_columna(X, Lista_columnas, Tablero):- write('Introduzca el numero de column
                                             X = Y
                                         ).
 
-prueba_leer:- gen_lista_columnas(7, Lista_columnas),
-            leer_columna(X, Lista_columnas),
-            write(X).
+% prueba_leer:- gen_lista_columnas(7, Lista_columnas),
+%             leer_columna(X, Lista_columnas),
+%             write(X).
 
 % TRASPUESTA
 
@@ -143,7 +153,7 @@ traspuesta_1ra_col([[H|T]|Filas], [H|Hs], [T|Ts]):- traspuesta_1ra_col(Filas, Hs
 %                     traspuesta(Tp2, Tp3),
 %                     imprimir_mesa(Tp3).
 
-
+% ______________________________________________________________________________________%
 
 % INSERTAR FICHA
 
@@ -173,6 +183,8 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
                         introducir(Aux, 'X', Aux1),
                         imprimir_lista(Aux1).
 
+% ______________________________________________________________________________________%
+
 % INTRODUCIR COLUMNA
 
 introducir_col(Col, Tablero_in, N, Tablero_out):- traspuesta(Tablero_in, Tablero2),
@@ -199,7 +211,24 @@ comprobar_fila([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actu
                                                         (
                                                             Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
                                                             (
-                                                                Contador2 == 4 ->  write('Victoria, has ganado') % si el contador llega a 4, alguien gana
+                                                                Contador2 == 4 ->  write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, % si el contador llega a 4, alguien gana
+                                                                                   write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
+                                                                                   write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
+                                                                                   write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
+                                                                                   write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
+                                                                                   write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
+                                                                                   write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
+                                                                                   write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
+                                                                                   write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
+                                                                                   write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
+                                                                                   write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
+                                                                                   write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
+                                                                                   write('               ▀                         ▀           ▀                               '), nl, nl,
+                                                                                   write('                              EL PUBLICO ENLOQUECE!!!                            '), nl, nl,
+                                                                                   write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                   write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                   write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                   write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl
                                                             ;
                                                                 Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
                                                             )
@@ -214,49 +243,74 @@ prueba_comprobar:- tablero_prueba(Tp),
              imprimir_lista(Fila), nl, nl,
              comprobar_fila(Fila, '_', 1).
 
+% RESPUESTA_ALEATORIA: función que escoge una columna aleatoria para la máquina.
+
+respuesta_aleatoria(Lista_columnas, Tablero, Col_rand):- random_member(Col, Lista_columnas),
+                                                    (
+                                                        columna_llena(Col, Tablero) -> respuesta_aleatoria(Lista_columnas, Tablero, Col_rand)  
+                                                    ;
+                                                        Col_rand = Col
+                                                    ). 
+
+% prueba_random:- tablero_prueba(Tp),
+%                 gen_lista_columnas(7, Lista_columnas),
+%                 respuesta_aleatoria(Lista_columnas, Tp, Col_rand),
+%                 write(Col_rand).
+
+
+% ESTRATEGIA AVANZADA
+estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
+                                                        (
+                                                            Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
+                                                            (
+                                                                Contador2 == 4 ->  write('')
+                                                            ;
+                                                                Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
+                                                            )
+                                                        ;
+                                                            (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
+                                                            
+
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 
 comprobar_victoria(Tablero):- comprobar_victoria_aux(Tablero); % comprueba filas
                             traspuesta(Tablero, TableroTras),
-                            comprobar_victoria_aux(TableroTras) % comprueba Columnas
-                            .
+                            comprobar_victoria_aux(TableroTras). % comprueba Columnas
 
 comprobar_victoria_aux([]):- false.
 comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_victoria_aux(Resto).    %se pone OR para que devuelva true en caso de que encuentre victoria y no recorra los demas
 
 
-% JUGAR
+% JUGAR (JUGADOR CONTRA JUGADOR)
 
 jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
-      read(Filas),
+        read(Filas),
         write('Introduzca el número de columnas con las que quiere jugar: '), nl,
         read(Columnas),
         generador_tablero(Filas, Columnas, Tablero),
         imprimir_mesa(Tablero), nl,
-      gen_lista_columnas(Columnas, Lista_columnas),
-        jugando(Tablero, Lista_columnas, 'x')
-      % Ya está el tablero generado, hay que guardarlo y pasarlo a todo,
-      % además de conservar y usar la lista de columnas, falta hacer
-      % jugando que haga todo lo que ha de hacer
+        gen_lista_columnas(Columnas, Lista_columnas),
+        jugando(Tablero, Lista_columnas, 'x').
 
-      .
+% JUGANDO (JUGADOR CONTRA JUGADOR)
 
-% JUGANDO
+jugando(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
+                                            leer_columna(Columna, Lista_columnas, Tablero),
+                                            extraer_columna(Columna, Tablero, Col),
+                                            introducir_ficha(Col, Jugador, Col2),
+                                            introducir_col(Col2, Tablero, Columna, Tablero2),
 
-jugando(Tablero,Lista_columnas,Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
-                                        leer_columna(Columna, Lista_columnas, Tablero),
-                                        extraer_columna(Columna, Tablero, Col),
-                                        % TRASPUESTA
-                                        introducir_ficha(Col, Jugador, Col2),
-                                        introducir_col(Col2, Tablero, Columna, Tablero2),
-
-                                        imprimir_mesa(Tablero2),
-                                        (comprobar_victoria(Tablero2) -> write('Ha ganado el jugador '), write(Jugador)
-                                        ;
+                                            imprimir_mesa(Tablero2),
                                             (
-                                                Jugador == 'x' -> Jugador2 = 'o'
+                                                comprobar_victoria(Tablero2) -> write('Ha ganado el jugador '), write(Jugador)
                                             ;
-                                                Jugador == 'o' -> Jugador2 = 'x'
-                                            ),
-                                            jugando(Tablero2, Lista_columnas, Jugador2)
-                                        ).
+                                                (
+                                                    Jugador == 'x' -> Jugador2 = 'o'
+                                                ;
+                                                    Jugador == 'o' -> Jugador2 = 'x'
+                                                ),
+                                                jugando(Tablero2, Lista_columnas, Jugador2)
+                                            ).
+
+
+

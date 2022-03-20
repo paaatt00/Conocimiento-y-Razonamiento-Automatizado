@@ -261,7 +261,7 @@ respuesta_aleatoria(Lista_columnas, Tablero, Col_rand):- random_member(Col, List
 % ESTRATEGIA AVANZADA
 estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
                                                         (
-                                                            Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
+                                                            Actual == Anterior, Actual == 'o' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
                                                             (
                                                                 Contador2 == 4 ->  write('')
                                                             ;
@@ -270,6 +270,19 @@ estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimi
                                                         ;
                                                             (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
                                                             
+estrategia_maquina_columnas([Actual|Resto_fila], Tablero, Contador, [Contadores]):-  
+                        (
+                            Actual == Anterior, Actual == 'o'  -> Contador2 is Contador+1
+                            (
+                                1 < Contador2, Contador2 < 4 -> estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
+                                ;
+                                Contador2 =< 4 ->  
+
+                            )
+                        ;
+                            (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
+
+                        ).                                                          
 
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 

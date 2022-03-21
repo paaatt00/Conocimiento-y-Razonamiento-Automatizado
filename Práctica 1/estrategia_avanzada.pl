@@ -23,11 +23,11 @@ mejor_posicion_horizontal_aux([Actual|Resto_fila], Anterior, Contador, Index, In
 
 % Basado punto a punto en el metodo de comprobar fila de tablero.pl
 mejor_posicion_vertical_aux([], _, _):- false. %si la columna no tiene ninguna sucesion de 3 elementos enemigos, devuelve false
-mejor_posicion_vertical_aux([Actual|Resto_fila], Anterior, Contador):- 
+mejor_posicion_vertical_aux([Actual|Resto_fila], Anterior, Contador):- (
                                                                             Actual == 'x', Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, 
-                                                                            (
+                                                                        (
                                                                                 Contador2 == 3 -> true % si sí hay tres elementos enemigos seguidos, los defiende 
-                                                                            ;
+                                                                        ;
                                                                                 Contador2 =< 3 ->  mejor_posicion_vertical_aux(Resto_fila, Actual, Contador2) %en caso contrario sigue buscando
                                                                             )
                                                                         ;

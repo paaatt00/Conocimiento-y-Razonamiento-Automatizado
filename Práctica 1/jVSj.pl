@@ -3,42 +3,41 @@
 % -------------------------- PRÁCTICA 1 - CRA ------------------------------------------ %
 % ______________________________________________________________________________________ %
 
-% ____________________________ máquina lista ___________________________________________ %
+% __________________________________ JcJ _______________________________________________ %
 
-% JUGANDO (JUGADOR CONTRA JUGADOR)
+jugando_JcJ(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
+                                                leer_columna(Columna, Lista_columnas, Tablero),
+                                                extraer_columna(Columna, Tablero, Col),
+                                                introducir_ficha(Col, Jugador, Col2),
+                                                introducir_col(Col2, Tablero, Columna, Tablero2),
 
-jugando(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
-                                            leer_columna(Columna, Lista_columnas, Tablero),
-                                            extraer_columna(Columna, Tablero, Col),
-                                            introducir_ficha(Col, Jugador, Col2),
-                                            introducir_col(Col2, Tablero, Columna, Tablero2),
-
-                                            imprimir_mesa(Tablero2),
-                                            (
-                                                comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
-                                                                                         write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
-                                                                                         write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
-                                                                                         write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
-                                                                                         write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
-                                                                                         write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
-                                                                                         write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
-                                                                                         write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
-                                                                                         write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
-                                                                                         write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
-                                                                                         write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
-                                                                                         write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
-                                                                                         write('               ▀                         ▀           ▀                               '), nl, nl,
-                                                                                         write('                              Ha ganado el jugador '), write(Jugador), nl, nl,
-                                                                                         write('                              EL PUBLICO ENLOQUECE!!!                                '), nl, nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl, nl                                            
-                                            ;
+                                                imprimir_mesa(Tablero2),
                                                 (
-                                                    Jugador == 'x' -> Jugador2 = 'o'
+                                                    comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
+                                                                                            write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
+                                                                                            write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
+                                                                                            write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
+                                                                                            write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
+                                                                                            write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
+                                                                                            write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
+                                                                                            write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
+                                                                                            write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
+                                                                                            write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
+                                                                                            write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
+                                                                                            write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
+                                                                                            write('               ▀                         ▀           ▀                               '), nl, nl,
+                                                                                            write('                              Ha ganado el jugador '), write(Jugador), nl, nl,
+                                                                                            write('                              EL PUBLICO ENLOQUECE!!!                                '), nl, nl,
+                                                                                            write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                            write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                            write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                            write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl, nl
+                                                                                            
                                                 ;
-                                                    Jugador == 'o' -> Jugador2 = 'x'
-                                                ),
-                                                jugando(Tablero2, Lista_columnas, Jugador2)
-                                            ).
+                                                    (
+                                                        Jugador == 'x' -> Jugador2 = 'o'
+                                                    ;
+                                                        Jugador == 'o' -> Jugador2 = 'x'
+                                                    ),
+                                                    jugando_JcJ(Tablero2, Lista_columnas, Jugador2)
+                                                ).

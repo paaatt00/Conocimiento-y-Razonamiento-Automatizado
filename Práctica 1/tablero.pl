@@ -191,35 +191,7 @@ respuesta_aleatoria(Lista_columnas, Tablero, Col_rand):- random_member(Col, List
                                                             columna_llena(Col, Tablero) -> respuesta_aleatoria(Lista_columnas, Tablero, Col_rand)  
                                                         ;
                                                             Col_rand = Col
-                                                        ). 
-
-
-
-% ESTRATEGIA AVANZADA
-% estrategia_maquina_avanzada([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actual|Resto_fila]), write(Contador), nl,
-%                                                         (
-%                                                             Actual == Anterior, Actual == 'o' -> Contador2 is Contador+1, % si acutal es igual al anterior y distinto de _, es decir, si hay ficha repetida, aumentamos el contador
-%                                                             (
-%                                                                 Contador2 == 4 ->  write('')
-%                                                             ;
-%                                                                 Contador2 =< 4 ->  comprobar_fila(Resto_fila, Actual, Contador2) % si no es 4, seguimos buscando
-%                                                             )
-%                                                         ;
-%                                                             (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, comprobar_fila(Resto_fila, Actual, Contador2) %caso general, si no hay dos casillas iguales seguidas O la casilla está vacia, reiniciamos el contador
-                                                            
-% estrategia_maquina_columnas([Actual|Resto_fila], Tablero, Contador, [Contadores]):-  
-%                         (
-%                             Actual == Anterior, Actual == 'o'  -> Contador2 is Contador+1
-%                             (
-%                                 1 < Contador2, Contador2 < 4 -> estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
-%                                 ;
-%                                 Contador2 =< 4 ->  
-
-%                             )
-%                         ;
-%                             (Actual \= Anterior ; Actual == '_') -> Contador2 is 1, estrategia_maquina_columnas(Resto_fila, Actual, Contador2)
-
-%                         ).                                                          
+                                                        ).                                                       
 
 % COMPROBAR VICTORIA: comprobar si algún jugador ha ganado la partida
 
@@ -235,50 +207,22 @@ comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_v
 
 % JUGAR (JUGADOR CONTRA JUGADOR)
 
-jugar:- write('Introduzca el numero de filas con las que quiere jugar: '), nl,
+jugar:- write('Introduzca el modo de juego deseado: '), nl,
+        write('     1. Jugador contra jugador'), nl,
+        write('     2. Jugador contra máquina tonta'), nl,
+        write('     3. Jugador contra máquina menos tonta'), nl,
+        read(Modo_juego),
+        write('Introduzca el numero de filas con las que quiere jugar: '), nl,
         read(Filas),
         write('Introduzca el numero de columnas con las que quiere jugar: '), nl,
         read(Columnas),
         generador_tablero(Filas, Columnas, Tablero),
         imprimir_mesa(Tablero), nl,
         gen_lista_columnas(Columnas, Lista_columnas),
-        jugando(Tablero, Lista_columnas, 'x').
-
-% JUGANDO (JUGADOR CONTRA JUGADOR)
-
-jugando(Tablero, Lista_columnas, Jugador):- write('Comienza el turno del jugador '), write(Jugador), nl,
-                                            leer_columna(Columna, Lista_columnas, Tablero),
-                                            extraer_columna(Columna, Tablero, Col),
-                                            introducir_ficha(Col, Jugador, Col2),
-                                            introducir_col(Col2, Tablero, Columna, Tablero2),
-
-                                            imprimir_mesa(Tablero2),
-                                            (
-                                                comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
-                                                                                         write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
-                                                                                         write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
-                                                                                         write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
-                                                                                         write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
-                                                                                         write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
-                                                                                         write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
-                                                                                         write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
-                                                                                         write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
-                                                                                         write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
-                                                                                         write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
-                                                                                         write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
-                                                                                         write('               ▀                         ▀           ▀                               '), nl, nl,
-                                                                                         write('                              Ha ganado el jugador '), write(Jugador), nl, nl,
-                                                                                         write('                              EL PUBLICO ENLOQUECE!!!                                '), nl, nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl, nl
-                                                                                         
-                                            ;
-                                                (
-                                                    Jugador == 'x' -> Jugador2 = 'o'
-                                                ;
-                                                    Jugador == 'o' -> Jugador2 = 'x'
-                                                ),
-                                                jugando(Tablero2, Lista_columnas, Jugador2)
-                                            ).
+        (
+            Modo_juego == 1 -> jugando_JcJ(Tablero, Lista_columnas, 'x')
+        ;
+            Modo_juego == 2 -> jugando_maquina_simple(Tablero, Lista_columnas, 'x')
+        ;
+            Modo_juego == 3 -> jugando_maquina_avanzada(Tablero, Lista_columnas, 'x')
+        ).

@@ -1,3 +1,10 @@
+% ______________________________________________________________________________________ %
+
+% -------------------------- PRÁCTICA 1 - CRA ------------------------------------------ %
+% ______________________________________________________________________________________ %
+
+% ____________________________ máquina lista ___________________________________________ %
+
 % Basado punto a punto en el metodo de comprobar fila de tablero.pl
 mejor_posicion_horizontal_aux([], _, _, Index_out, Index):- Index_out = Index. % asigna la salida al indice de la columna en la que acaba la sucesion de fichas enemigas
 mejor_posicion_horizontal_aux([Actual|Resto_fila], Anterior, Contador, Index, Index_out):- Index2 is Index+1,

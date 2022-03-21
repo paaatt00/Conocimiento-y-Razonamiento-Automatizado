@@ -69,3 +69,10 @@ prueba_random:- tablero_prueba(Tp),
                 gen_lista_columnas(7, Lista_columnas),
                 respuesta_aleatoria(Lista_columnas, Tp, Col_rand),
                 write(Col_rand).
+
+prueba_mejor_horizontal:- tablero_prueba(Tp),
+              imprimir_tablero(Tp), nl,
+              nth1(2, Tp, Fila),
+              imprimir_lista(Fila), nl, nl,
+              mejor_posicion_horizontal_aux(Fila, '_', 0,0,Index_out),
+    		  write(Index_out).

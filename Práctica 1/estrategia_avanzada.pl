@@ -1,11 +1,3 @@
-% ______________________________________________________________________________________ %
-
-% -------------------------- PRÁCTICA 1 - CRA ------------------------------------------ %
-% ______________________________________________________________________________________ %
-
-% ____________________________ máquina lista ___________________________________________ %
-
-
 % Basado punto a punto en el metodo de comprobar fila de tablero.pl
 mejor_posicion_horizontal_aux([], _, _, Index_out, Index):- Index_out = Index. % asigna la salida al indice de la columna en la que acaba la sucesion de fichas enemigas
 mejor_posicion_horizontal_aux([Actual|Resto_fila], Anterior, Contador, Index, Index_out):- Index2 is Index+1,
@@ -24,7 +16,7 @@ mejor_posicion_horizontal_aux([Actual|Resto_fila], Anterior, Contador, Index, In
 
 % Basado punto a punto en el metodo de comprobar fila de tablero.pl
 mejor_posicion_vertical_aux([], _, _):- false. %si la columna no tiene ninguna sucesion de 3 elementos enemigos, devuelve false
-mejor_posicion_vertical_aux([Actual|Resto_fila], Anterior, Contador):- (
+mejor_posicion_vertical_aux([Actual|Resto_fila], Anterior, Contador):- 
                                                                             Actual == 'x', Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, 
                                                                             (
                                                                                 Contador2 == 3 -> true % si sí hay tres elementos enemigos seguidos, los defiende 
@@ -37,7 +29,7 @@ mejor_posicion_vertical_aux([Actual|Resto_fila], Anterior, Contador):- (
                                                                         ).
 
 % Devuelve la "mejor" posición en horizonal 
-mejor_posicion_horizontal([], _, _):- false.
+mejor_posicion_horizontal([], Lista_columnas, Posicion_out):-length(Lista_columnas,N), Posicion_out is N+1.
 mejor_posicion_horizontal([Fila_actual|Resto], Lista_columnas, Posicion_out):- mejor_posicion_horizontal_aux(Fila_actual, '_', 0, 0, Columna),% columna es el indice de la ultima ficha que forma una cadena de 3 para el oponente
                                                                             Columna2 is Columna+1,% como se meterá en la siguiente columna, sumamos 1
                                                                             (
@@ -46,18 +38,16 @@ mejor_posicion_horizontal([Fila_actual|Resto], Lista_columnas, Posicion_out):- m
                                                                                 mejor_posicion_horizontal(Resto, Lista_columnas, Posicion_out)
                                                                             ).
 
-mejor_posicion_vertical([],_,_,_):- false.
+mejor_posicion_vertical([],Lista_columnas,_,Contador_out):- length(Lista_columnas,N), Contador_out is N+1.
 mejor_posicion_vertical([Columna_actual|Resto], Lista_columnas, Contador, Contador_out):-(
                                                                                             mejor_posicion_vertical_aux(Columna_actual, '_', 0) -> Contador_out = Contador %si ha encontrado algo que ha de defender en la columna, lo defiende
                                                                                         ;
-                                                                                            Contador2 = Contador+1,
+                                                                                            Contador2 is Contador+1,
                                                                                             mejor_posicion_vertical(Resto, Lista_columnas, Contador2, Contador_out)
                                                                                         ).
 
-mejor_posicion(Tablero, Lista_columnas, Posicion):- mejor_posicion_horizontal(Tablero, Lista_columnas, Posicion_horizontal), % comprobamos en horizontal
-                                                    (
+mejor_posicion(Tablero, Lista_columnas, Posicion):- (   mejor_posicion_horizontal(Tablero, Lista_columnas, Posicion_horizontal), % comprobamos en horizontal
                                                         member(Posicion_horizontal, Lista_columnas) -> Posicion = Posicion_horizontal % comprobamos por si ha devuelto false
-                                                            
                                                     ;
                                                         traspuesta(Tablero, TableroTras),
                                                         mejor_posicion_vertical(TableroTras, Lista_columnas, 1, Posicion_vertical),
@@ -83,8 +73,8 @@ jugando_maquina_avanzada(Tablero, Lista_columnas, Jugador):-  write('Comienza el
                                                 Jugador == 'x' -> leer_columna(Columna, Lista_columnas, Tablero)
 
                                                 ;
-
-                                                Jugador == 'o' -> mejor_posicion(Lista_columnas, Tablero, Columna)
+												
+                                                Jugador == 'o' -> mejor_posicion(Tablero, Lista_columnas, Columna)
                                             ),
                                           
                                             extraer_columna(Columna, Tablero, Col),
@@ -120,3 +110,4 @@ jugando_maquina_avanzada(Tablero, Lista_columnas, Jugador):-  write('Comienza el
                                                 ),
                                                 jugando_maquina_avanzada(Tablero2, Lista_columnas, Jugador2)
                                             ).
+

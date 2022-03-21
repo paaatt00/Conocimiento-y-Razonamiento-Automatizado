@@ -6,7 +6,7 @@
 % ____________________________ máquina lista ___________________________________________ %
 
 % basado punto a punto en el metodo de comprobar fila de tablero.pl
-mejor_posicion_horizontal_aux([], _, _, _, Index, Index_out):- Index_out = Index. % asigna la salida al indice de la columna en la que acaba la sucesion de fichas enemigas
+mejor_posicion_horizontal_aux([], _, _, _, Index_out, Index):- Index_out = Index. % asigna la salida al indice de la columna en la que acaba la sucesion de fichas enemigas
 mejor_posicion_horizontal_aux([Actual|Resto_fila], Jugador, Anterior, Contador, Index, Index_out):- Index2 is Index+1,
                                                                                         (
                                                                                             Actual == Jugador, Actual == Anterior, Actual \= '_' -> Contador2 is Contador+1, % actualizamos contador
@@ -77,45 +77,45 @@ mejor_posicion(Tablero, Lista_columnas, Posicion):- (
                                                     ).
 
 jugando_maquina_avanzada(Tablero, Lista_columnas, Jugador):-  write('Comienza el turno del jugador '), write(Jugador), nl,
-                                            (
-                                                Jugador == 'x' -> leer_columna(Columna, Lista_columnas, Tablero)
+                                                            (
+                                                                Jugador == 'x' -> leer_columna(Columna, Lista_columnas, Tablero)
 
-                                                ;
-												
-                                                Jugador == 'o' -> mejor_posicion(Tablero, Lista_columnas, Columna)
-                                            ),
-                                          
-                                            extraer_columna(Columna, Tablero, Col),
-                                            introducir_ficha(Col, Jugador, Col2),
-                                            introducir_col(Col2, Tablero, Columna, Tablero2),
+                                                                ;
+                                                                
+                                                                Jugador == 'o' -> mejor_posicion(Tablero, Lista_columnas, Columna)
+                                                            ),
+                                                        
+                                                            extraer_columna(Columna, Tablero, Col),
+                                                            introducir_ficha(Col, Jugador, Col2),
+                                                            introducir_col(Col2, Tablero, Columna, Tablero2),
 
-                                            imprimir_mesa(Tablero2),
-                                            (
-                                                comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
-                                                                                         write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
-                                                                                         write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
-                                                                                         write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
-                                                                                         write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
-                                                                                         write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
-                                                                                         write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
-                                                                                         write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
-                                                                                         write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
-                                                                                         write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
-                                                                                         write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
-                                                                                         write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
-                                                                                         write('               ▀                         ▀           ▀                               '), nl, nl,
-                                                                                         write('                              Ha ganado el jugador '), write(Jugador), nl, nl,
-                                                                                         write('                              EL PUBLICO ENLOQUECE!!!                                '), nl, nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
-                                                                                         write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl, nl
-                                            ;
-                                                (
-                                                    Jugador == 'x' -> Jugador2 = 'o'
-                                                ;
-                                                    Jugador == 'o' -> Jugador2 = 'x'
-                                                ),
-                                                jugando_maquina_avanzada(Tablero2, Lista_columnas, Jugador2)
-                                            ).
+                                                            imprimir_mesa(Tablero2),
+                                                            (
+                                                                comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
+                                                                                                        write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,
+                                                                                                        write('              ╚██╗░██╔╝██║██║░░╚═╝░░░██║░░░██║░░██║██████╔╝██║███████║'), nl,
+                                                                                                        write('              ░╚████╔╝░██║██║░░██╗░░░██║░░░██║░░██║██╔══██╗██║██╔══██║'), nl,
+                                                                                                        write('              ░░╚██╔╝░░██║╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║██║██║░░██║'), nl,
+                                                                                                        write('              ░░░╚═╝░░░╚═╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝'), nl, nl,
+                                                                                                        write('         ▄  █ ██      ▄▄▄▄▄         ▄▀  ██      ▄   ██   ██▄   ████▄   ▄   ▄   ▄   ▄ '), nl,
+                                                                                                        write('        █   █ █ █    █     ▀▄     ▄▀    █ █      █  █ █  █  █  █   █  █   █   █   █  '), nl,
+                                                                                                        write('        ██▀▀█ █▄▄█ ▄  ▀▀▀▀▄       █ ▀▄  █▄▄█ ██   █ █▄▄█ █   █ █   █ █   █   █   █   '), nl,
+                                                                                                        write('        █   █ █  █  ▀▄▄▄▄▀        █   █ █  █ █ █  █ █  █ █  █  ▀████ █   █   █   █   '), nl,
+                                                                                                        write('           █     █                 ███     █ █  █ █    █ ███▀                        '), nl,
+                                                                                                        write('          ▀     █                         █  █   ██   █              ▀   ▀   ▀   ▀   '), nl,
+                                                                                                        write('               ▀                         ▀           ▀                               '), nl, nl,
+                                                                                                        write('                              Ha ganado el jugador '), write(Jugador), nl, nl,
+                                                                                                        write('                              EL PUBLICO ENLOQUECE!!!                                '), nl, nl,
+                                                                                                        write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                                        write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                                        write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl,
+                                                                                                        write('༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽ ༼ ºل͟º ༼ ºل͟º ༼ ºل͟º ༽ ºل͟º ༽ ºل͟º ༽'), nl, nl
+                                                            ;
+                                                                (
+                                                                    Jugador == 'x' -> Jugador2 = 'o'
+                                                                ;
+                                                                    Jugador == 'o' -> Jugador2 = 'x'
+                                                                ),
+                                                                jugando_maquina_avanzada(Tablero2, Lista_columnas, Jugador2)
+                                                            ).
 

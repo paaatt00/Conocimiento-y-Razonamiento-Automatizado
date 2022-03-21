@@ -53,16 +53,26 @@ mejor_posicion_vertical([Columna_actual|Resto], Lista_columnas, Jugador, Contado
                                                                                             mejor_posicion_vertical(Resto, Lista_columnas, Jugador, Contador2, Contador_out)
                                                                                         ).
 
-mejor_posicion(Tablero, Lista_columnas, Posicion):- (   mejor_posicion_horizontal(Tablero, Lista_columnas, 'x', Posicion_horizontal), % comprobamos en horizontal
+mejor_posicion(Tablero, Lista_columnas, Posicion):- (   mejor_posicion_horizontal(Tablero, Lista_columnas, 'o', Posicion_horizontal), % comprobamos en horizontal
                                                         member(Posicion_horizontal, Lista_columnas) -> Posicion = Posicion_horizontal % comprobamos por si ha devuelto false
                                                     ;
                                                         traspuesta(Tablero, TableroTras),
-                                                        mejor_posicion_vertical(TableroTras, Lista_columnas, 'x', 1, Posicion_vertical),
+                                                        mejor_posicion_vertical(TableroTras, Lista_columnas, 'o', 1, Posicion_vertical),
                                                         (
                                                             member(Posicion_vertical, Lista_columnas)->Posicion=Posicion_vertical
                                                         ;
-                                                            respuesta_aleatoria(Lista_columnas, Tablero, Col_rand),
-                                                            Posicion=Col_rand
+                                                            (   mejor_posicion_horizontal(Tablero, Lista_columnas, 'x', Posicion_horizontal), % comprobamos en horizontal
+                                                                member(Posicion_horizontal, Lista_columnas) -> Posicion = Posicion_horizontal % comprobamos por si ha devuelto false
+                                                             ;
+                                                                traspuesta(Tablero, TableroTras),
+                                                                mejor_posicion_vertical(TableroTras, Lista_columnas, 'x', 1, Posicion_vertical),
+                                                                (
+                                                                    member(Posicion_vertical, Lista_columnas)->Posicion=Posicion_vertical
+                                                                    ;
+                                                                    respuesta_aleatoria(Lista_columnas, Tablero, Col_rand),
+                                                                    Posicion=Col_rand
+                                                                )
+                                                            )
                                                         )
                                                     ).
 

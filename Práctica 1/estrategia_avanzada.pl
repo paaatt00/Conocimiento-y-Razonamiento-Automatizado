@@ -90,7 +90,7 @@ jugando_maquina_avanzada(Tablero, Lista_columnas, Jugador):-  write('Comienza el
                                             introducir_ficha(Col, Jugador, Col2),
                                             introducir_col(Col2, Tablero, Columna, Tablero2),
 
-                                            imprimir_mesa(Tablero2),
+                                            imprimir_mesa(Tablero2, Lista_columnas),
                                             (
                                                 comprobar_victoria(Jugador, Tablero2) -> write('              ██╗░░░██╗██╗░█████╗░████████╗░█████╗░██████╗░██╗░█████╗░'), nl, 
                                                                                          write('              ██║░░░██║██║██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██║██╔══██╗'), nl,

@@ -21,7 +21,7 @@ prueba_guiones:- generador_lista_guiones(15,Y), imprimir_lista(Y).
 
 prueba_impresion:- imprimir_lista([' ', 1, ' ', 2, ' ', 3, ' ', 4, ' ', 5, ' ', 6, ' ', 7]).
 
-prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp).
+prueba_tablero:- tablero_prueba(Tp), imprimir_mesa(Tp,[]).
 
 prueba_extraer_fila:- tablero_prueba(Tp),
                     extraer_fila(1, Tp, Fila),
@@ -41,9 +41,9 @@ prueba_leer:- gen_lista_columnas(7, Lista_columnas),
 
 prueba_traspuesta:- tablero_prueba(Tp),
                     traspuesta(Tp, Tp2),
-                    imprimir_mesa(Tp2),
+                    imprimir_mesa(Tp2,[]),
                     traspuesta(Tp2, Tp3),
-                    imprimir_mesa(Tp3).
+                    imprimir_mesa(Tp3,[]).
 
 prueba_introducir_ficha:- tablero_prueba(Tp),
                         traspuesta(Tp, Tp2),
@@ -53,7 +53,7 @@ prueba_introducir_ficha:- tablero_prueba(Tp),
 
 prueba_introducir_col:- tablero_prueba(Tp),
                         introducir_col(['o', 'x', 'o', 'x', 'x', 'o'],Tp, 3, TOut),
-                        imprimir_mesa(TOut).
+                        imprimir_mesa(TOut,[]).
 
 prueba_comprobar:- tablero_prueba(Tp),
                 imprimir_tablero(Tp), nl,

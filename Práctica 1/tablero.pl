@@ -176,7 +176,7 @@ comprobar_diagonal1(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero),
                                 M2 is M1+1, M3 is M2+1, M4 is M3+1.
 
 % diagonal tipo / 
-comprobar_diagonal2(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), .
+comprobar_diagonal2(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero),
                                 append(I1, [X|_], C1),
                                 append(I2, [X|_], C2),
                                 append(I3, [X|_], C3),

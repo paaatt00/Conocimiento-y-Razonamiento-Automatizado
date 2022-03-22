@@ -65,7 +65,7 @@ imprimir_tablero([X|L]):- write('| '),
 % IMPRIMIR MESA
 
 imprimir_mesa([]):- nl.
-imprimir_mesa(T,Lista_columnas):- imprimir_lista_espacios_aux(Lista_columnas), nl,
+imprimir_mesa(T, Lista_columnas):- imprimir_lista_espacios_aux(Lista_columnas), nl,
                                 generador_lista_guiones(15, L1), imprimir_lista(L1), nl,
                                 imprimir_tablero(T).
 
@@ -228,8 +228,8 @@ jugar:- write('Introduzca el modo de juego deseado: '), nl,
         write('Introduzca el numero de columnas con las que quiere jugar: '), nl,
         read(Columnas),
         generador_tablero(Filas, Columnas, Tablero),
-        imprimir_mesa(Tablero,Lista_columnas), nl,
         gen_lista_columnas(Columnas, Lista_columnas),
+        imprimir_mesa(Tablero, Lista_columnas), nl,
         (
             Modo_juego == 1 -> jugando_JcJ(Tablero, Lista_columnas, 'x')
         ;

@@ -85,7 +85,7 @@ extraer_posicion(Y, X, Tablero, Elem):- extraer_fila(Y, Tablero, Fila),
 % COMPROBAR SI UNA COLUMNA ESTÁ LLENA
 
 columna_llena(X, Tablero):- extraer_posicion(1, X, Tablero, Elem),
-                            (Elem \= '_') -> write('Columna llena').
+                            (Elem \= '_') -> true.
 
 % LEER COLUMNA
 
@@ -95,7 +95,7 @@ leer_columna(X, Lista_columnas, Tablero):- write('Introduzca el numero de column
                                             not(member(Y, Lista_columnas)) ->  write('Columna fuera de rango, conteste nuevamente.'), nl,
                                             leer_columna(X, Lista_columnas, Tablero)
                                         ;
-                                            columna_llena(Y, Tablero) -> write(', conteste nuevamente.'), nl,
+                                            columna_llena(Y, Tablero) -> write('Columna llena, conteste nuevamente.'), nl,
                                             leer_columna(X, Lista_columnas, Tablero)
                                         ;
                                             X = Y
@@ -209,8 +209,11 @@ comprobar_victoria_aux([Fila|Resto]):- comprobar_fila(Fila, '_', 1); comprobar_v
 
 jugar:- write('Introduzca el modo de juego deseado: '), nl,
         write('     1. Jugador contra jugador'), nl,
-        write('     2. Jugador contra máquina tonta'), nl,
-        write('     3. Jugador contra máquina menos tonta'), nl,
+        write('     2. Jugador contra maquina tonta'), nl,
+        write('     3. Jugador contra maquina menos tonta'), nl,
+        write('     4. Visualizar partida (tienes que ser publico enloquecido)'), nl,
+        write('        Estrategia simple -> jugardor x'), nl,
+        write('        Estrategia avanzada -> jugador o'), nl,
         read(Modo_juego),
         write('Introduzca el numero de filas con las que quiere jugar: '), nl,
         read(Filas),
@@ -225,4 +228,6 @@ jugar:- write('Introduzca el modo de juego deseado: '), nl,
             Modo_juego == 2 -> jugando_maquina_simple(Tablero, Lista_columnas, 'x')
         ;
             Modo_juego == 3 -> jugando_maquina_avanzada(Tablero, Lista_columnas, 'x')
+        ;
+            Modo_juego == 4 -> jugando_maquinaVSmaquina(Tablero, Lista_columnas, 'x')
         ).

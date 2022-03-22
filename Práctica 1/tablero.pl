@@ -45,24 +45,29 @@ imprimir_lista([X|Y]):- write(X), write(' '), imprimir_lista(Y). % TODO: no impr
 imprimir_lista_con_barra([]).
 imprimir_lista_con_barra([X|Y]):- write(X), write(' | '),
                                 imprimir_lista_con_barra(Y).
-%Imprimir lista con espaciones
+
+% IMPRIMIR LISTA CON ESPACIOS
+
 imprimir_lista_espacios([]).
-imprimir_lista_espacios([X|Y]):- write(' '), write(X), write(' '), imprimir_lista_espacios(Y).
+imprimir_lista_espacios([X|Y]):- write('  '), write(X), write(' '), imprimir_lista_espacios(Y).
+
+imprimir_lista_espacios_aux(Lista_espacios):- reverse(X, Lista_espacios),
+                                            imprimir_lista_espacios(X).
 
 % IMPRIMIR TABLERO
 
 imprimir_tablero([]):- nl.
 imprimir_tablero([X|L]):- write('| '),
-              imprimir_lista_con_barra(X), nl,
+                        imprimir_lista_con_barra(X), nl,
                         generador_lista_guiones(15,L1), imprimir_lista(L1), nl,
                         imprimir_tablero(L).
 
 % IMPRIMIR MESA
 
 imprimir_mesa([]):- nl.
-imprimir_mesa(T,Lista_columnas):- imprimir_lista_espacios(Lista_columnas), nl,
-          generador_lista_guiones(15, L1), imprimir_lista(L1), nl,
-          imprimir_tablero(T).
+imprimir_mesa(T,Lista_columnas):- imprimir_lista_espacios_aux(Lista_columnas), nl,
+                                generador_lista_guiones(15, L1), imprimir_lista(L1), nl,
+                                imprimir_tablero(T).
 
 % ______________________________________________________________________________________%
 

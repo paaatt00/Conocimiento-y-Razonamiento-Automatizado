@@ -167,8 +167,8 @@ comprobar_fila([Actual|Resto_fila], Anterior, Contador):- % imprimir_lista([Actu
                                                         ).
 
 % diagonal tipo \
-comprobar_diagonal1(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), % check if 4 connected columns exists in board...
-                                append(I1, [X|_], C1), % ...such that all of them contain a piece of player X...
+comprobar_diagonal1(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), 
+                                append(I1, [X|_], C1), 
                                 append(I2, [X|_], C2),
                                 append(I3, [X|_], C3),
                                 append(I4, [X|_], C4),
@@ -176,8 +176,8 @@ comprobar_diagonal1(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), % check i
                                 M2 is M1+1, M3 is M2+1, M4 is M3+1.
 
 % diagonal tipo / 
-comprobar_diagonal2(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), % check if 4 connected columns exists in board...
-                                append(I1, [X|_], C1), % ...such that all of them contain a piece of player X...
+comprobar_diagonal2(X, Tablero):- append(_, [C1,C2,C3,C4|_], Tablero), .
+                                append(I1, [X|_], C1),
                                 append(I2, [X|_], C2),
                                 append(I3, [X|_], C3),
                                 append(I4, [X|_], C4),

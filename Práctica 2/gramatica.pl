@@ -7,6 +7,7 @@
 
 :-consult(diccionario).
 
+% ______________________________________________________________________________________ %
 
 % ORACIONES
 
@@ -14,6 +15,11 @@ oracion(Oracion) --> oracion_simple(Oracion).
 oracion(Oracion) --> oracion_compuesta(Oracion).
 
 % ORACIÓN SIMPLE
+
+oracion_simple(Oracion)   --> oracion_aux(Oracion).
+
+oracion_aux(o(GN,GV)) --> grupo_nominal(GN), grupo_verbal(GV).
+oracion_aux(oSO(GV)) --> grupo_verbal(GV). % sujeto omitido
 
 % ORACIÓN COMPUESTA
 
@@ -59,6 +65,9 @@ grupo_adverbial(gadv(GAdv1, GAdv2)) --> grupo_adverbialAux(GAdv1), grupo_adverbi
 grupo_adverbialAux(Adv) --> adverbio(Adv).
 
 % COMPLEMENTO DEL NOMBRE
+
+complemento_nombre(cn(Adj)) --> grupo_adjetival(Adj). % la casa grande
+complemento_nombre(cn(GPrep)) --> grupo_preposicional(GPrep).
 
 % COMPLEMENTO DIRECTO
 

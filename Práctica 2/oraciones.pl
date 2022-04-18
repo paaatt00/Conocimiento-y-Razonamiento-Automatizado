@@ -12,9 +12,9 @@ oracion4([tu,hablas,muy,rapidamente]).
 oracion5([ella,hace,la,practica,de,juan]).
 oracion6([el,canario,de,juan,y,maria,canta]).
 oracion7([la,blanca,paloma,alzo,el,vuelo]).
-oracion8([esta,muy,lejos,de,madrid]).
+oracion8([esta,muy,lejos,de,madrid]). 
 oracion9([soy,lento,de,reflejos]).
-oracion10([manana,iremos,a,la,feria,del,comic]).
+oracion10([manana,iremos,a,la,feria,del,comic]). 
 oracion11([la,esperanza,de,vida,de,un,nino,depende,de,su,lugar,de,nacimiento]).
 oracion12([el,senor,que,vimos,en,la,universidad,era,mi,profesor]).
 oracion13([juan,que,es,muy,delicado,come,solamente,manzanas,rojas]).

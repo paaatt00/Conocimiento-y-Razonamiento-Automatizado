@@ -5,7 +5,7 @@
 
 % ____________________________ gramática _______________________________________________ %
 
-:-consult(diccionario).
+:- consult(diccionario).
 
 % ______________________________________________________________________________________ %
 
@@ -34,21 +34,21 @@ oracion_aux(oSO(GV)) --> grupo_verbal(GV). % sujeto omitido
 % SINTAGMA NOMINAL (gn)
 
 grupo_nominal(GN) --> grupo_nominal_aux(GN).
-% grupo_nominal(GN1, Nexo, GN2) --> grupo_nominal_aux(GN1), nexo(Nexo), grupo_nominal_aux(GN2).
 
 grupo_nominal_aux(gn(N)) --> nombre(N).
 grupo_nominal_aux(gn(N)) --> pronombre(N).
 grupo_nominal_aux(gn(N)) --> nombre_propio(N).
 grupo_nominal_aux(gn(Det, N)) --> determinante(Det), nombre(N).
+grupo_nominal_aux(gn(Det, N, GN)) --> determinante(Det), nombre(N), complemento_nombre(GN).
 grupo_nominal_aux(gn(Det, N, Adj)) --> determinante(Det), nombre(N), adjetivo(Adj).
 grupo_nominal_aux(gn(Det, N, Adj)) --> determinante(Det), adjetivo(Adj), nombre(N).
-grupo_nominal_aux(gn(Det, N, GN)) --> determinante(Det), nombre(N), complemento_nombre(GN).
 grupo_nominal_aux(gn(N1, Nexo, N2)) --> nombre_propio(N1), nexo(Nexo), nombre_propio(N2).
 
 % SINTAGMA VERBAL (gv)
 
 grupo_verbal(gv(V)) --> verbo(V).
 grupo_verbal(gv(V, GV)) --> verbo(V), grupo_verbal_aux(GV).
+grupo_verbal(gv(V, GV)) --> grupo_verbal_aux(GV), verbo(V).
 grupo_verbal(gv(GV1, V, GV2)) --> grupo_verbal_aux(GV1), verbo(V), grupo_verbal_aux(GV2).
 grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), grupo_verbal_aux(GV1), grupo_verbal_aux(GV2).
 
@@ -77,7 +77,7 @@ grupo_adjetival(gadj(Adj, CAdj)) --> adjetivo(Adj), complemento_adjetivo(CAdj).
 
 % SINTAGMA ADVERBIAL (gadv)
 
-grupo_adverbial(gadv(GAdv)) --> grupo_adverbial_aux(GAdv). 
+grupo_adverbial(gadv(GAdv)) --> grupo_adverbial_aux(GAdv). % lejos
 grupo_adverbial(gadv(GAdv1, GAdv2)) --> grupo_adverbial_aux(GAdv1), grupo_adverbial_aux(GAdv2). % muy rápidamente
 grupo_adverbial(gadv(GAdv1, GAdv2, GAdv3)) --> grupo_adverbial_aux(GAdv1), grupo_adverbial_aux(GAdv2), grupo_adverbial_aux(GAdv3). % muy lejos de Guadalajara
 
@@ -111,8 +111,8 @@ atributo(atrib(GAdj)) --> grupo_adjetival(GAdj). % soy lento de reflejos
 
 % COMPLEMENTO CIRCUNSTANCIAL (cc)
 
-complemento_circunstancial(cc(GAdv)) --> grupo_adverbial(GAdv).
 complemento_circunstancial(cc(GPrep)) --> grupo_preposicional(GPrep).
+complemento_circunstancial(cc(GAdv)) --> grupo_adverbial(GAdv).
 
 % NEXOS
 

@@ -5,65 +5,83 @@
 
 % ____________________________ diccionario _____________________________________________ %
 
-
 % ADJETIVOS
 
 adjetivo(adj(X)) --> [X], {adj(X)}.
 adj(grande).
 adj(roja).
+adj(blanca).
+adj(lento).
 
 % NOMBRES
 
 nombre(n(X)) --> [X], {n(X)}.
-n(hombre)
-n(manzana)
-n(tenedor)
-n(cuchillo)
+n(hombre).
+n(manzana).
+n(tenedor).
+n(cuchillo).
+n(practica).
+n(canario).
+n(paloma).
+n(vuelo).
+n(reflejos).
+n(feria).
+n(comic).
 
 % NOMBRES PROPIOS
 
 nombre_propio(np(X)) --> [X], {np(X)}.
-np(juan)
-np(maria)
+np(juan).
+np(maria).
+np(madrid).
 
 % PRONOMBRES
 
 pronombre(pr(X)) --> [X], {pr(X)}.
-pr(tu)
+pr(tu).
+pr(ella).
 
 % ADVERBIOS
 
-advervio(adv(X)) --> [X], {adv(X)}.
-adv(muy)
-adv(rapidamente)
+adverbio(adv(X)) --> [X], {adv(X)}.
+adv(muy).
+adv(rapidamente).
+adv(lejos).
+adv(manana).
 
 % DETERMINANTES
 
 determinante(det(X)) --> [X], {det(X)}.
-det(el)
-det(la)
-det(un)
+det(el).
+det(la).
+det(un).
 
 % CONJUNCIONES
 
-conjunciones(conj(X)) --> [X], {conj(X)}.
-conj(y)
+conjuncion(conj(X)) --> [X], {conj(X)}.
+conj(y).
 
 % PREPOSICIONES
 
-preposiciones(prep(X)) --> [X], {prep(X)}.
-prep(con)
+preposicion(prep(X)) --> [X], {prep(X)}.
+prep(con).
+prep(de).
+prep(del). % no es una preposición como tal, es unión de de + el
+prep(a).
 
 % VERBOS COPULATIVOS
 
-verbos_copulativos(vcop(X)) --> [X], {vcop(X)}.
+verbo_copulativo(vcop(X)) --> [X], {vcop(X)}.
+vcop(esta).
+vcop(soy).
 
 % VERBOS PREDICATIVOS
 
 verbo(v(X)) --> [X], {v(X)}.
-v(come)
-v(comen)
-v(hablas)
-
-
-
+v(come).
+v(comen).
+v(hablas).
+v(hace).
+v(canta).
+v(alzo).
+v(iremos).

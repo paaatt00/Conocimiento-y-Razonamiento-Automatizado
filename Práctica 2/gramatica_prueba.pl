@@ -35,6 +35,8 @@ oracion_aux(oSO(GV)) --> grupo_verbal(GV). % sujeto omitido
 
 grupo_nominal(GN) --> grupo_nominal_aux(GN).
 grupo_nominal(gn(GN1, Nexo, GN2)) --> grupo_nominal_aux(GN1), nexo(Nexo), grupo_nominal_aux(GN2).
+grupo_nominal(gn(GN, GPrep)) --> grupo_nominal_aux(GN), grupo_preposicional(GPrep).
+grupo_nominal(gn(GN, GAadj),_,_) --> grupo_nominal_aux(GN), g_adjetival2(GAadj).
 
 grupo_nominal_aux(gn(N)) --> nombre(N).
 grupo_nominal_aux(gn(N)) --> pronombre(N).
@@ -49,9 +51,9 @@ grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_prepos
 % SINTAGMA VERBAL (gv)
 
 grupo_verbal(gv(V)) --> verbo(V).
+grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), complemento_directo(GV1), grupo_preposicional(GV2).
 grupo_verbal(gv(V, GV)) --> verbo(V), complemento_directo(GV).
 grupo_verbal(gv(V, GV)) --> verbo_copulativo(V), atributo(GV).
-grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), complemento_directo(GV1), grupo_preposicional(GV2).
 % grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), complemento_directo(GV1), grupo_adjetival(GV2).
 grupo_verbal(gv(V, GV)) --> verbo(V), grupo_adjetival(GV).
 grupo_verbal(gv(V, GV)) --> verbo(V), grupo_preposicional(GV).
@@ -74,7 +76,6 @@ grupo_adjetival(gadj(Adj, CAdj)) --> adjetivo(Adj), grupo_preposicional(CAdj).
 grupo_adverbial(gadv(Adv1, Adv2, GPrep)) --> adverbio(Adv1), adverbio(Adv2), grupo_preposicional(GPrep). % muy lejos de Guadalajara
 grupo_adverbial(gadv(Adv1, Adv2)) --> adverbio(Adv1), adverbio(Adv2). % muy rápidamente
 grupo_adverbial(gadv(Adv)) --> adverbio(Adv). % lejos
-
 
 % COMPLEMENTO DIRECTO (cd)
 

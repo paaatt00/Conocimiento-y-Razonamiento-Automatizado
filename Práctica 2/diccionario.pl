@@ -8,51 +8,84 @@
 % ADJETIVOS
 
 adjetivo(adj(X)) --> [X], {adj(X)}.
-adj(grande).
-adj(roja).
+adj(alegres).
+adj(alta).
 adj(blanca).
+adj(delicado).
+adj(fritas).
+adj(grande).
 adj(lento).
+adj(moreno).
+adj(negros).
+adj(potente).
+adj(roja).
+adj(rojas).
 
 % NOMBRES
 
 nombre(n(X)) --> [X], {n(X)}.
-n(hombre).
-n(manzana).
-n(tenedor).
-n(cuchillo).
-n(practica).
+n(ayuda).
+n(cafe).
 n(canario).
-n(paloma).
-n(vuelo).
-n(reflejos).
-n(feria).
+n(cerveza).
 n(comic).
+n(corbata).
+n(cuchillo).
+n(documentos).
+n(escribir).
 n(esperanza).
-n(vida).
-n(nino).
+n(feria).
+n(herramienta).
+n(hombre).
 n(lugar).
+n(manzana).
+n(manzanas).
+n(mesa).
 n(nacimiento).
+n(nino).
+n(noche).
+n(paloma).
+n(pantalon).
+n(patatas).
+n(practica).
+n(procesador).
+n(profesional).
+n(profesor).
+n(reflejos).
+n(senor).
+n(tenedor).
+n(textos).
+n(universidad).
+n(vida).
+n(vuelo).
+
 
 % NOMBRES PROPIOS
 
 nombre_propio(np(X)) --> [X], {np(X)}.
 np(juan).
+np(hector).
 np(maria).
 np(madrid).
 
 % PRONOMBRES
 
 pronombre(pr(X)) --> [X], {pr(X)}.
+pr(esos).
 pr(tu).
 pr(ella).
 
 % ADVERBIOS
 
 adverbio(adv(X)) --> [X], {adv(X)}.
-adv(muy).
-adv(rapidamente).
+adv(bastante).
 adv(lejos).
 adv(manana).
+adv(mientras).
+adv(muy).
+adv(rapidamente).
+adv(solamente).
+adv(toda).
 
 % DETERMINANTES
 
@@ -60,12 +93,16 @@ determinante(det(X)) --> [X], {det(X)}.
 det(el).
 det(la).
 det(un).
+det(una).
 det(su).
+det(mi).
 
 % CONJUNCIONES
 
 conjuncion(conj(X)) --> [X], {conj(X)}.
 conj(y).
+conj(que).
+conj(pero).
 
 % PREPOSICIONES
 
@@ -74,21 +111,38 @@ prep(con).
 prep(de).
 prep(del). % no es una preposición como tal, es unión de de + el
 prep(a).
+prep(en).
+prep(para).
 
 % VERBOS COPULATIVOS
 
 verbo_copulativo(vcop(X)) --> [X], {vcop(X)}.
 vcop(esta).
 vcop(soy).
+vcop(es).
 
 % VERBOS PREDICATIVOS
 
 verbo(v(X)) --> [X], {v(X)}.
+v(alzo).
+v(bailamos).
+v(beben).
+v(bebimos).
+v(canta).
+v(cantan).
 v(come).
 v(comen).
+v(compre).
+v(creo).
+v(depende).
+v(estudiabas).
 v(hablas).
 v(hace).
-v(canta).
-v(alzo).
 v(iremos).
-v(depende).
+v(necesitais).
+v(recoge).
+v(toma).
+v(saltan).
+v(sirve).
+v(sonrien).
+v(vimos).

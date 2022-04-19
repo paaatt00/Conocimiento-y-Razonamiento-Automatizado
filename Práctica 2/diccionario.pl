@@ -27,6 +27,11 @@ n(vuelo).
 n(reflejos).
 n(feria).
 n(comic).
+n(esperanza).
+n(vida).
+n(nino).
+n(lugar).
+n(nacimiento).
 
 % NOMBRES PROPIOS
 
@@ -55,6 +60,7 @@ determinante(det(X)) --> [X], {det(X)}.
 det(el).
 det(la).
 det(un).
+det(su).
 
 % CONJUNCIONES
 
@@ -85,3 +91,4 @@ v(hace).
 v(canta).
 v(alzo).
 v(iremos).
+v(depende).

@@ -5,7 +5,7 @@
 
 % _________________________________ test _______________________________________________ %
 
-:- consult(gramatica).
+:- consult(gramatica_prueba).
 :- consult(draw).
 :- consult(oraciones).
 

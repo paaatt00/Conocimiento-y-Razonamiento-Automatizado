@@ -59,7 +59,6 @@ n(universidad).
 n(vida).
 n(vuelo).
 
-
 % NOMBRES PROPIOS
 
 nombre_propio(np(X)) --> [X], {np(X)}.
@@ -75,17 +74,26 @@ pr(esos).
 pr(tu).
 pr(ella).
 
+% PRONOMBRES RELATIVOS
+
+pronombre_relativo(prel(X)) --> [X], {prel(X)}.
+prel(que).
+
 % ADVERBIOS
 
 adverbio(adv(X)) --> [X], {adv(X)}.
 adv(bastante).
 adv(lejos).
 adv(manana).
-adv(mientras).
 adv(muy).
 adv(rapidamente).
 adv(solamente).
 adv(toda).
+
+% ADVERBIOS (que funcionan como nexos)
+
+adverbio_nexo(advN(X)) --> [X], {advN(X)}.
+advN(mientras).
 
 % DETERMINANTES
 
@@ -101,7 +109,6 @@ det(mi).
 
 conjuncion(conj(X)) --> [X], {conj(X)}.
 conj(y).
-conj(que).
 conj(pero).
 
 % PREPOSICIONES

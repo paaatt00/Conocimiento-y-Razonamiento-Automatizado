@@ -7,7 +7,7 @@
 
 % ADJETIVOS
 
-adjetivo(adj(X, G, N)) --> [X],  {adj(X, G, N)}.
+adjetivo(adj(X), G, N) --> [X],  {adj(X, G, N)}.
 adj(alegres, _, pl).
 adj(alta, f, sg).
 adj(blanca, f, sg).
@@ -23,7 +23,7 @@ adj(rojas, f, pl).
 
 % NOMBRES
 
-nombre(n(X, G, N)) --> [X],  {n(X, G, N)}.
+nombre(n(X), G, N) --> [X],  {n(X, G, N)}.
 n(ayuda, f, sg).
 n(cafe, m, sg).
 n(canario, m, sg).
@@ -60,7 +60,7 @@ n(vida, f, sg).
 n(vuelo, m, sg).
 
 % NOMBRES PROPIOS
-nombre_propio(np(X, G, N)) --> [X],  {np(X, G, N)}.
+nombre_propio(np(X), G, N) --> [X],  {np(X, G, N)}.
 np(juan, m, sg).
 np(hector, m, sg).
 np(maria, f, sg).
@@ -68,7 +68,7 @@ np(madrid, m, sg).
 
 % PRONOMBRES
 
-pronombre(pr(X, G, N)) --> [X],  {pr(X, G, N)}.
+pronombre(pr(X), G, N) --> [X],  {pr(X, G, N)}.
 pr(tu, _, sg).
 pr(ella, f, sg).
 
@@ -94,7 +94,7 @@ advn(mientras).
 
 % DETERMINANTES
 
-determinante(det(X, G, N)) --> [X],  {det(X, G, N)}.
+determinante(det(X), G, N) --> [X],  {det(X, G, N)}.
 det(el, m, sg).
 det(esos, m, pl).
 det(la, f, sg).
@@ -122,7 +122,7 @@ prep(para).
 
 % VERBOS COPULATIVOS
 
-verbo_copulativo(vcop(X, N)) --> [X],  {vcop(X, N)}.
+verbo_copulativo(vcop(X), N) --> [X],  {vcop(X, N)}.
 vcop(esta, sg).
 vcop(soy, sg).
 vcop(es, sg).
@@ -130,7 +130,7 @@ vcop(era, sg).
 
 % VERBOS PREDICATIVOS
 
-verbo(v(X, N)) --> [X],  {v(X, N)}.
+verbo(v(X), N) --> [X],  {v(X, N)}.
 v(alzo, sg).
 v(bailamos, pl).
 v(beben, pl).

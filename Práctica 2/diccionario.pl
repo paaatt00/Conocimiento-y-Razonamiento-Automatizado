@@ -42,7 +42,7 @@ n(manzana).
 n(manzanas).
 n(mesa).
 n(nacimiento).
-n(nino).
+n(ninos).
 n(noche).
 n(paloma).
 n(pantalon).
@@ -70,7 +70,6 @@ np(madrid).
 % PRONOMBRES
 
 pronombre(pr(X)) --> [X], {pr(X)}.
-pr(esos).
 pr(tu).
 pr(ella).
 
@@ -88,18 +87,19 @@ adv(manana).
 adv(muy).
 adv(rapidamente).
 adv(solamente).
-adv(toda).
 
 % ADVERBIOS (que funcionan como nexos)
 
-adverbio_nexo(advN(X)) --> [X], {advN(X)}.
-advN(mientras).
+adverbio_nexo(advn(X)) --> [X], {advn(X)}.
+advn(mientras).
 
 % DETERMINANTES
 
 determinante(det(X)) --> [X], {det(X)}.
 det(el).
+det(esos).
 det(la).
+det(toda).
 det(un).
 det(una).
 det(su).
@@ -108,16 +108,16 @@ det(mi).
 % CONJUNCIONES
 
 conjuncion(conj(X)) --> [X], {conj(X)}.
-conj(y).
 conj(pero).
+conj(y).
 
 % PREPOSICIONES
 
 preposicion(prep(X)) --> [X], {prep(X)}.
+prep(a).
 prep(con).
 prep(de).
 prep(del). % no es una preposición como tal, es unión de de + el
-prep(a).
 prep(en).
 prep(para).
 
@@ -127,6 +127,7 @@ verbo_copulativo(vcop(X)) --> [X], {vcop(X)}.
 vcop(esta).
 vcop(soy).
 vcop(es).
+vcop(era).
 
 % VERBOS PREDICATIVOS
 

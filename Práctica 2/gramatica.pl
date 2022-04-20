@@ -30,7 +30,8 @@ oracion_compuesta(ocm(Oracion)) --> oracion_coordinada(Oracion).
 
 % ORACION SUBORDINADA ADJETIVA
 
-oracion_subordinada(or(Nexo, GV)) --> nexo_sub(Nexo), oracion_simple(GV).
+oracion_subordinada(or(Nexo, GV)) --> nexo_subR(Nexo), oracion_simple(GV).
+oracion_subordinada(oa(Nexo, GV)) --> nexo_subA(Nexo), oracion_simple(GV).
 
 % ORACIÓN COORDINADA
 
@@ -74,6 +75,7 @@ grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), grupo_adverbial(GV1), grupo_nominal(
 grupo_verbal(gv(V, GV1, GV2)) --> verbo(V), grupo_preposicional(GV1), grupo_nominal(GV2).
 grupo_verbal(gv(GV1, V, GV2)) --> grupo_adverbial(GV1), verbo(V), grupo_preposicional(GV2).
 grupo_verbal(gv(V, OrSub)) --> verbo(V), oracion_subordinada(OrSub).
+grupo_verbal(gv(V, GV1, OrSub)) --> verbo(V), grupo_nominal(GV1), oracion_subordinada(OrSub).
 
 % SINTAGMA PREPOSICIONAL (gp)
 
@@ -94,5 +96,5 @@ grupo_adverbial(gadv(Adv)) --> adverbio(Adv). % lejos
 % NEXOS
 
 nexo(nexo(Nexo)) --> conjuncion(Nexo).
-nexo(nexo(Nexo)) --> adverbio_nexo(Nexo).
-nexo_sub(nexo(PrRel)) --> pronombre_relativo(PrRel).
+nexo_subA(nexo(Nexo)) --> adverbio_nexo(Nexo).
+nexo_subR(nexo(PrRel)) --> pronombre_relativo(PrRel).

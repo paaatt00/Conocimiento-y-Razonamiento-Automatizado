@@ -41,7 +41,7 @@ oracion_coordinada(oc(Oracion1,Nexo1,Oracion2,Nexo2,Oracion3)) --> oracion_aux(O
 grupo_nominal(GN,G,N) --> grupo_nominal_aux(GN,G,N).
 grupo_nominal(gn(Det,GN),G,N) --> determinante(Det,G,N),grupo_nominal_aux(GN,G,N).
 grupo_nominal(gn(GN1,Nexo,GN2),_,pl) --> grupo_nominal_aux(GN1,_,_),nexo(Nexo),grupo_nominal_aux(GN2,_,_).
-grupo_nominal(gn(GN,GPrep),G,N) --> grupo_nominal_aux(GN,G,N),grupo_preposicional(GPrep,_,_).
+grupo_nominal(gn(GN,GPrep),G,N) --> grupo_nominal_aux(GN,G,N),grupo_preposicional(GPrep).
 grupo_nominal(gn(GN,GAadj),G,N) --> grupo_nominal_aux(GN,G,N),grupo_adjetival(GAadj,G,N).
 grupo_nominal(gn(GN,OrSub),G,N) --> grupo_nominal_aux(GN,G,N),oracion_subordinada(OrSub,_,_).
 
@@ -53,7 +53,7 @@ grupo_nominal_aux(gn(Nom,CN),G,N) --> nombre(Nom,G,n),grupo_adjetival(CN,G,N).
 grupo_nominal_aux(gn(CN,Nom),G,N) --> grupo_adjetival(CN,G,N),nombre(Nom,G,N).
 grupo_nominal_aux(gn(Det,CN,Nom),G,N) --> determinante(Det,G,N),grupo_adjetival(CN,G,N),nombre(Nom,G,N).
 grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),grupo_adjetival(CN,G,N).
-grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),grupo_preposicional(CN,G,N).
+grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),grupo_preposicional(CN).
 
 % SINTAGMA VERBAL (gv)
 

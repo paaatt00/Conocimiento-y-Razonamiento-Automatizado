@@ -18,8 +18,8 @@ oracion(Oracion) --> oracion_simple(Oracion).
 
 oracion_simple(Oracion) --> oracion_aux(Oracion).
 
-oracion_aux(o(GN,GV)) --> grupo_nominal(GN),grupo_verbal(GV).
-oracion_aux(oSO(GV)) --> grupo_verbal(GV). % sujeto omitido
+oracion_aux(o(GN,GV)) --> grupo_nominal(GN,G,N),grupo_verbal(GV,G,N).
+oracion_aux(oSO(GV)) --> grupo_verbal(GV,G,N). % sujeto omitido
 
 % ORACIÓN COMPUESTA
 

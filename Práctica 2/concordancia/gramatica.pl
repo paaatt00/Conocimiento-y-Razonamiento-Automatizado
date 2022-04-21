@@ -19,7 +19,7 @@ oracion(Oracion) --> oracion_simple(Oracion).
 oracion_simple(Oracion) --> oracion_aux(Oracion).
 
 oracion_aux(o(GN,GV)) --> grupo_nominal(GN,G,N),grupo_verbal(GV,G,N).
-oracion_aux(oSO(GV)) --> grupo_verbal(GV,G,N). % sujeto omitido
+oracion_aux(oSO(GV)) --> grupo_verbal(GV,_,_). % sujeto omitido
 
 % ORACIÓN COMPUESTA
 
@@ -57,19 +57,19 @@ grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),
 
 % SINTAGMA VERBAL (gv)
 
-grupo_verbal(gv(V),G,N) --> verbo(V,N).
+grupo_verbal(gv(V),_,N) --> verbo(V,N).
 grupo_verbal(gv(V,GV),G,N) --> verbo_copulativo(V,N),atributo(GV,G,N).
-grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_nominal(GV,_,N).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_preposicional(GV2).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_adjetival(GV2,G,N).
-grupo_verbal(gv(V,GV),G,N) --> verbo_copulativo(V,N),grupo_adverbial(GV).
-grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_adjetival(GV,_,N).
-grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_preposicional(GV).
-grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_adverbial(GV).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_adverbial(GV1),grupo_nominal(GV2,_,N).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_preposicional(GV1),grupo_nominal(GV2,_,N).
-grupo_verbal(gv(GV1,V,GV2),G,N) --> grupo_adverbial(GV1),verbo(V,N),grupo_preposicional(GV2).
-grupo_verbal(gv(V,OrSub),G,N) --> verbo_copulativo(V,N),oracion_subordinada(OrSub).
+grupo_verbal(gv(V,GV),_,N) --> verbo(V,N),grupo_nominal(GV,_,N).
+grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_preposicional(GV2).
+grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_adjetival(GV2,m,N).
+grupo_verbal(gv(V,GV),_,N) --> verbo_copulativo(V,N),grupo_adverbial(GV).
+grupo_verbal(gv(V,GV),_,N) --> verbo(V,N),grupo_adjetival(GV,_,N).
+grupo_verbal(gv(V,GV),_,N) --> verbo(V,N),grupo_preposicional(GV).
+grupo_verbal(gv(V,GV),_,N) --> verbo(V,N),grupo_adverbial(GV).
+grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_adverbial(GV1),grupo_nominal(GV2,_,N).
+grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_preposicional(GV1),grupo_nominal(GV2,_,N).
+grupo_verbal(gv(GV1,V,GV2),_,N) --> grupo_adverbial(GV1),verbo(V,N),grupo_preposicional(GV2).
+grupo_verbal(gv(V,OrSub),_,N) --> verbo_copulativo(V,N),oracion_subordinada(OrSub).
 
 % SINTAGMA PREPOSICIONAL (gp)
 

@@ -27,7 +27,7 @@ oracion_compuesta(ocm(Oracion)) --> oracion_coordinada(Oracion).
 
 % ORACION SUBORDINADA ADJETIVA
 
-oracion_subordinada(or(Nexo,GV)) --> nexo_sub(Nexo),grupo_verbal(GV).
+oracion_subordinada(or(Nexo,GV)) --> nexo_sub(Nexo),grupo_verbal(GV,_,_).
 
 % ORACIÓN COORDINADA
 

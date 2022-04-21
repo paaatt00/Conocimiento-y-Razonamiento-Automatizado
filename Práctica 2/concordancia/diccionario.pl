@@ -75,7 +75,7 @@ pr(ella, f, sg).
 
 % PRONOMBRES RELATIVOS
 
-pronombre_relativo(prel(X)) --> [X],  {prel(X)}.%Dudo TODO
+pronombre_relativo(prel(X)) --> [X],  {prel(X)}.
 prel(que).
 
 % ADVERBIOS

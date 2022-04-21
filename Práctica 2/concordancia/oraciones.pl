@@ -22,7 +22,7 @@ oracion14([juan,es,moreno,y,maria,es,alta]).
 oracion15([juan,recoge,la,mesa,mientras,maria,toma,un,cafe]).
 oracion16([compre,un,pantalon,y,una,corbata,negros]).
 oracion17([juan,y,hector,comen,patatas,fritas,y,beben,cerveza]).
-oracion18([bebimos,y,bailamos,toda,la,noche,mientras,tu,estudiabas]). % 
+oracion18([bebimos,y,bailamos,toda,la,noche,mientras,tu,estudiabas]). 
 oracion19([esos,ninos,cantan,y,saltan,y,sonrien,alegres]).
 oracion20([creo,que,necesitais,la,ayuda,de,un,profesional]).
 oracion21([el,procesador,de,textos,que,es,una,herramienta,muy,potente,sirve,para,escribir,documentos]).

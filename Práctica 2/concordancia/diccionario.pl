@@ -42,6 +42,7 @@ n(manzana, f, sg).
 n(manzanas, f, pl).
 n(mesa, f, sg).
 n(nacimiento, m, sg).
+n(nino, m, sg).
 n(ninos, m, pl).
 n(noche, f, sg).
 n(paloma, f, sg).

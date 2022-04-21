@@ -59,15 +59,15 @@ grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),
 
 grupo_verbal(gv(V),G,N) --> verbo(V,N).
 grupo_verbal(gv(V,GV),G,N) --> verbo_copulativo(V,N),atributo(GV,G,N).
-grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_nominal(GV,G,N).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,G,N),grupo_preposicional(GV2).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,G,N),grupo_adjetival(GV2).
+grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_nominal(GV,_,N).
+grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_preposicional(GV2).
+grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_adjetival(GV2,G,N).
 grupo_verbal(gv(V,GV),G,N) --> verbo_copulativo(V,N),grupo_adverbial(GV).
 grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_adjetival(GV,_,N).
 grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_preposicional(GV).
 grupo_verbal(gv(V,GV),G,N) --> verbo(V,N),grupo_adverbial(GV).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_adverbial(GV1),grupo_nominal(GV2,G,N).
-grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_preposicional(GV1),grupo_nominal(GV2,G,N).
+grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_adverbial(GV1),grupo_nominal(GV2,_,N).
+grupo_verbal(gv(V,GV1,GV2),G,N) --> verbo(V,N),grupo_preposicional(GV1),grupo_nominal(GV2,_,N).
 grupo_verbal(gv(GV1,V,GV2),G,N) --> grupo_adverbial(GV1),verbo(V,N),grupo_preposicional(GV2).
 grupo_verbal(gv(V,OrSub),G,N) --> verbo_copulativo(V,N),oracion_subordinada(OrSub).
 

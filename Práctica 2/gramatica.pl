@@ -61,6 +61,7 @@ grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_prepos
 
 % SINTAGMA VERBAL (gv)
 
+
 grupo_verbal(gv(V)) --> verbo(V).
 grupo_verbal(gv(V, GV)) --> verbo_copulativo(V), grupo_adjetival(GV).
 grupo_verbal(gv(V, GV)) --> verbo_copulativo(V), grupo_nominal(GV).

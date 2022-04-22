@@ -143,7 +143,7 @@ v(comen, pl).
 v(compre, sg).
 v(creo, sg).
 v(depende, sg).
-v(estudiabas, pl).
+v(estudiabas, sg).
 v(hablas, sg).
 v(hace, sg).
 v(iremos, pl).

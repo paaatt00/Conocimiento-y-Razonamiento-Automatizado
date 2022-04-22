@@ -45,7 +45,7 @@ grupo_nominal(gn(GN1, Nexo, GN2), _, pl) --> grupo_nominal_aux(GN1, _, _), nexo(
 grupo_nominal(gn(GN, GPrep), G, N) --> grupo_nominal_aux(GN, G, N), grupo_preposicional(GPrep).
 grupo_nominal(gn(GN, GAadj), G, N) --> grupo_nominal_aux(GN, G, N), grupo_adjetival(GAadj, G, N).
 grupo_nominal(gn(GN, OrSub), G, N) --> grupo_nominal_aux(GN, G, N), oracion_subordinada(OrSub).
-grupo_nominal(gn(GN1, GN2)) --> grupo_nominal_aux(GN1), grupo_nominal_aux(GN2).
+grupo_nominal(gn(GN1, GN2),_,_) --> grupo_nominal_aux(GN1,_,_), grupo_nominal_aux(GN2,_,_).
 
 grupo_nominal_aux(gn(Nom), G, N) --> nombre(Nom, G, N).
 grupo_nominal_aux(gn(Nom), G, N) --> pronombre(Nom, G, N).
@@ -62,18 +62,19 @@ grupo_nominal_aux(gn(Det, Nom, CN), G, N) --> determinante(Det, G, N), nombre(No
 grupo_verbal(gv(V), _, N) --> verbo(V, N).
 grupo_verbal(gv(V,  GV), G, N) --> verbo_copulativo(V, N),  grupo_adjetival(GV, G, N).
 grupo_verbal(gv(V,  GV), G, N) --> verbo_copulativo(V, N),  grupo_nominal(GV, G, N).
-grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_nominal(GV, _, N).
-grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_nominal(GV1, _, N), grupo_preposicional(GV2).
-grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_nominal(GV1, _, N), grupo_adjetival(GV2, m, N).
+grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_nominal(GV, _, _).
+grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_nominal(GV1, _, _), grupo_preposicional(GV2).
+grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_nominal(GV1, _, N2), grupo_adjetival(GV2, m, N2).
 grupo_verbal(gv(V, GV), _, N) --> verbo_copulativo(V, N), grupo_adverbial(GV).
 grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_adjetival(GV, _, N).
 grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_preposicional(GV).
 grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_adverbial(GV).
-grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_adverbial(GV1), grupo_nominal(GV2, _, N).
-grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_preposicional(GV1), grupo_nominal(GV2, _, N).
+grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_adverbial(GV1), grupo_nominal(GV2, _, _).
+grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_preposicional(GV1), grupo_nominal(GV2, _, _).
 grupo_verbal(gv(GV1, V, GV2), _, N) --> grupo_adverbial(GV1), verbo(V, N), grupo_preposicional(GV2).
 grupo_verbal(gv(V,  OrSub), _, N) --> verbo(V, N),  oracion_subordinada(OrSub).
 grupo_verbal(gv(V, OrSub), _, N) --> verbo_copulativo(V, N), oracion_subordinada(OrSub).
+grupo_verbal(gv(V, GV1, OrSub),_,N) --> verbo(V,N), grupo_nominal(GV1,_,_), oracion_subordinada(OrSub).
 
 % SINTAGMA PREPOSICIONAL (gp)
 

@@ -45,6 +45,7 @@ grupo_nominal(gn(GN1, Nexo, GN2), _, pl) --> grupo_nominal_aux(GN1, _, _), nexo(
 grupo_nominal(gn(GN, GPrep), G, N) --> grupo_nominal_aux(GN, G, N), grupo_preposicional(GPrep).
 grupo_nominal(gn(GN, GAadj), G, N) --> grupo_nominal_aux(GN, G, N), grupo_adjetival(GAadj, G, N).
 grupo_nominal(gn(GN, OrSub), G, N) --> grupo_nominal_aux(GN, G, N), oracion_subordinada(OrSub).
+grupo_nominal(gn(GN1, GN2)) --> grupo_nominal_aux(GN1), grupo_nominal_aux(GN2).
 
 grupo_nominal_aux(gn(Nom), G, N) --> nombre(Nom, G, N).
 grupo_nominal_aux(gn(Nom), G, N) --> pronombre(Nom, G, N).

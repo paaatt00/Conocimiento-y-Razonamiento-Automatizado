@@ -55,6 +55,8 @@ grupo_nominal_aux(gn(N, CN)) --> nombre(N), grupo_adjetival(CN).
 grupo_nominal_aux(gn(CN, N)) --> grupo_adjetival(CN), nombre(N).
 grupo_nominal_aux(gn(Det, CN, N)) --> determinante(Det), grupo_adjetival(CN), nombre(N).
 grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_adjetival(CN).
+grupo_nominal_aux(gn(Det, N, OrSub)) --> determinante(Det), nombre(N), oracion_subordinada(OrSub).
+grupo_nominal_aux(gn(Det, N, CN1, OrSub)) --> determinante(Det), nombre(N), grupo_adjetival(CN1), oracion_subordinada(OrSub).
 grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_preposicional(CN).
 
 % SINTAGMA VERBAL (gv)

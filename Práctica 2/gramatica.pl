@@ -14,9 +14,6 @@
 oracion(Oracion) --> oracion_compuesta(Oracion).
 oracion(Oracion) --> oracion_simple(Oracion).
 
-oracion(Output, Input, []) --> oracion_compuesta(Output, Input, []).
-oracion(Output, Input, []) --> oracion_simple(Output, Input, []).
-
 % ORACIÓN SIMPLE
 
 oracion_simple(Oracion) --> oracion_aux(Oracion).
@@ -60,7 +57,6 @@ grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_adjeti
 grupo_nominal_aux(gn(Det, N, CN)) --> determinante(Det), nombre(N), grupo_preposicional(CN).
 
 % SINTAGMA VERBAL (gv)
-
 
 grupo_verbal(gv(V)) --> verbo(V).
 grupo_verbal(gv(V, GV)) --> verbo_copulativo(V), grupo_adjetival(GV).

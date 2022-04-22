@@ -35,6 +35,8 @@ test20:- oracion20(Or20), oracion(X, Or20, []), draw(X), nl, !.
 test21:- oracion21(Or21), oracion(X, Or21, []), draw(X), nl, !.
 test22:- oracion22(Or22), oracion(X, Or22, []), draw(X), nl, !.
 
+testTest:- oracionTest(OrTest),oracion(X,OrTest,[]),draw(X),nl,!.
+
 tests1_11:- write('Oracion 1'), nl,
             test1,
             write('Oracion 2'), nl,

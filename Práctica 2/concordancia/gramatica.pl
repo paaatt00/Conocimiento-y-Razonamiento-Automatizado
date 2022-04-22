@@ -59,6 +59,7 @@ grupo_nominal_aux(gn(Det,Nom,CN),G,N) --> determinante(Det,G,N),nombre(Nom,G,N),
 
 grupo_verbal(gv(V),_,N) --> verbo(V,N).
 grupo_verbal(gv(V,GV),G,N) --> verbo_copulativo(V,N),atributo(GV,G,N).
+grupo_verbal(gv(V, GV),G,N) --> verbo_copulativo(V,N), grupo_nominal(GV,G,N).
 grupo_verbal(gv(V,GV),_,N) --> verbo(V,N),grupo_nominal(GV,_,N).
 grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_preposicional(GV2).
 grupo_verbal(gv(V,GV1,GV2),_,N) --> verbo(V,N),grupo_nominal(GV1,_,N),grupo_adjetival(GV2,m,N).

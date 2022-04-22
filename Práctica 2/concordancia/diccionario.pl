@@ -144,7 +144,7 @@ v(compre, sg).
 v(creo, sg).
 v(depende, sg).
 v(estudiabas, pl).
-v(hablas, pl).
+v(hablas, sg).
 v(hace, sg).
 v(iremos, pl).
 v(necesitais, pl).

@@ -8,7 +8,7 @@
 oracion1([el,hombre,grande,come,la,manzana,roja]).
 oracion2([el,hombre,con,un,tenedor,grande,come,la,manzana,roja]).
 oracion3([juan,y,maria,comen,la,manzana,roja,con,un,tenedor,y,un,cuchillo]).
-oracion4([tu,hablas,muy,rapidamente]).%error
+oracion4([tu,hablas,muy,rapidamente]).
 oracion5([ella,hace,la,practica,de,juan]).
 oracion6([el,canario,de,juan,y,maria,canta]).
 oracion7([la,blanca,paloma,alzo,el,vuelo]).
@@ -29,4 +29,4 @@ oracion21([el,procesador,de,textos,que,es,una,herramienta,muy,potente,sirve,para
 oracion22([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sirve,para,escribir,documentos,pero,es,bastante,lento]).%error
 
 
-oracionTest([juan, es, profesor]).
+oracionTest([juan,y,hector, comen,patatas,fritas, y, beben, cafe]).

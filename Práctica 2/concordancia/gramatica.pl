@@ -27,8 +27,8 @@ oracion_compuesta(ocm(Oracion)) --> oracion_coordinada(Oracion).
 
 % ORACION SUBORDINADA ADJETIVA
 
-oracion_subordinada(or(Nexo,  GV)) --> nexo_subR(Nexo),  oracion_simple(GV).
-oracion_subordinada(oa(Nexo,  GV)) --> nexo_subA(Nexo),  oracion_simple(GV).
+oracion_subordinada_rel(or(Nexo,  GV)) --> nexo_subR(Nexo),  oracion_simple(GV).
+oracion_subordinada_adv(oa(Nexo,  GV)) --> nexo_subA(Nexo),  oracion_simple(GV).
 
 % ORACIÓN COORDINADA
 
@@ -44,7 +44,7 @@ grupo_nominal(gn(Det, GN), G, N) --> determinante(Det, G, N), grupo_nominal_aux(
 grupo_nominal(gn(GN1, Nexo, GN2), _, pl) --> grupo_nominal_aux(GN1, _, _), nexo(Nexo), grupo_nominal_aux(GN2, _, _).
 grupo_nominal(gn(GN, GPrep), G, N) --> grupo_nominal_aux(GN, G, N), grupo_preposicional(GPrep).
 grupo_nominal(gn(GN, GAadj), G, N) --> grupo_nominal_aux(GN, G, N), grupo_adjetival(GAadj, G, N).
-grupo_nominal(gn(GN, OrSub), G, N) --> grupo_nominal_aux(GN, G, N), oracion_subordinada(OrSub).
+grupo_nominal(gn(GN, OrSub), G, N) --> grupo_nominal_aux(GN, G, N), oracion_subordinada_rel(OrSub).
 grupo_nominal(gn(GN1, GN2),_,_) --> grupo_nominal_aux(GN1,_,_), grupo_nominal_aux(GN2,_,_).
 
 grupo_nominal_aux(gn(Nom), G, N) --> nombre(Nom, G, N).
@@ -55,6 +55,8 @@ grupo_nominal_aux(gn(Nom, CN), G, N) --> nombre(Nom, G, N), grupo_adjetival(CN, 
 grupo_nominal_aux(gn(CN, Nom), G, N) --> grupo_adjetival(CN, G, N), nombre(Nom, G, N).
 grupo_nominal_aux(gn(Det, CN, Nom), G, N) --> determinante(Det, G, N), grupo_adjetival(CN, G, N), nombre(Nom, G, N).
 grupo_nominal_aux(gn(Det, Nom, CN), G, N) --> determinante(Det, G, N), nombre(Nom, G, N), grupo_adjetival(CN, G, N).
+grupo_nominal_aux(gn(Det, Nom, OrSub), G, N) --> determinante(Det, G, N), nombre(Nom, G, N), oracion_subordinada_rel(OrSub).
+grupo_nominal_aux(gn(Det, Nom, CN, OrSub), G, N) --> determinante(Det, G, N), nombre(Nom, G, N), grupo_adjetival(CN, G, N), oracion_subordinada_rel(OrSub).
 grupo_nominal_aux(gn(Det, Nom, CN), G, N) --> determinante(Det, G, N), nombre(Nom, G, N), grupo_preposicional(CN).
 
 % SINTAGMA VERBAL (gv)
@@ -72,9 +74,9 @@ grupo_verbal(gv(V, GV), _, N) --> verbo(V, N), grupo_adverbial(GV).
 grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_adverbial(GV1), grupo_nominal(GV2, _, _).
 grupo_verbal(gv(V, GV1, GV2), _, N) --> verbo(V, N), grupo_preposicional(GV1), grupo_nominal(GV2, _, _).
 grupo_verbal(gv(GV1, V, GV2), _, N) --> grupo_adverbial(GV1), verbo(V, N), grupo_preposicional(GV2).
-grupo_verbal(gv(V,  OrSub), _, N) --> verbo(V, N),  oracion_subordinada(OrSub).
-grupo_verbal(gv(V, OrSub), _, N) --> verbo_copulativo(V, N), oracion_subordinada(OrSub).
-grupo_verbal(gv(V, GV1, OrSub),_,N) --> verbo(V,N), grupo_nominal(GV1,_,_), oracion_subordinada(OrSub).
+grupo_verbal(gv(V,  OrSub), _, N) --> verbo(V, N),  oracion_subordinada_rel(OrSub).
+grupo_verbal(gv(V, OrSub), _, N) --> verbo_copulativo(V, N), oracion_subordinada_rel(OrSub).
+grupo_verbal(gv(V, GV1, OrSub),_,N) --> verbo(V,N), grupo_nominal(GV1,_,_), oracion_subordinada_adv(OrSub).
 
 % SINTAGMA PREPOSICIONAL (gp)
 

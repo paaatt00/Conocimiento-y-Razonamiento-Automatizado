@@ -29,4 +29,4 @@ oracion21([el,procesador,de,textos,que,es,una,herramienta,muy,potente,sirve,para
 oracion22([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sirve,para,escribir,documentos,pero,es,bastante,lento]).%error
 
 
-oracionTest([el,procesador,de,textos,es,una,herramienta,que,sirve,para,escribir,documentos]).
+oracionTest([juan,es,una,manzana]).

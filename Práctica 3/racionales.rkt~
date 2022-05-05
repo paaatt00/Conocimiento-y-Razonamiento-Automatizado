@@ -1,0 +1,9 @@
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    PRACTICA DE LABORATORIO 3: λ CALCULO
+  *        Laura Ramos Martínez
+  *        Patricia Cuesta Ruiz
+  *        Isabel Blanco Martínez
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+
+(define test_racionales (lambda (x) ; Convierte el número racional en una lista para imprimirlo por pantalla
+                          (list (testenteros(primero x)) (testenteros(segundo x)))))

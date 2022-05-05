@@ -1,0 +1,44 @@
+COMPROBACIONES
+
+-NATURALES-
+(escero trois)
+#false
+((Esmenornat cinq) trois)
+#false
+((Esmenornat cinq) six)
+#false
+
+(comprobar((sumnat trois) quatre))
+7
+(comprobar((restonat sept) cinq))
+2
+(comprobar(primero((par trois) deux))
+3
+(comprobar(sucesor trois))
+4
+(comprobar((prodnat sept) cinq))
+35
+(comprobar((restonat sept) cinq))
+2
+
+-ENTEROS-
+((esmenorent cinco) tres)
+#false
+((esmayorent cinco) tres)
+#true
+
+(testenteros(segundo((par cinco) siete)))
+7
+(testenteros(absoluto siete))
+7
+(testenteros(absoluto -once))
+11
+(testenteros((sument -once) quince))
+4
+(testenteros((mcdent dieciseis) cuatro))
+4
+(testenteros((restaent once) quince))
+-4
+(testenteros((prodent once) quince))
+165
+(testenteros((esmayoroigualent once) quince)) -- no me va

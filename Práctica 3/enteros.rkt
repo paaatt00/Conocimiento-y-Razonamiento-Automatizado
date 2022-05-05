@@ -489,7 +489,7 @@
 (define (pruebaRacionales)
   (display "------------------------ PRUEBA RACIONALES ------------------------\n")
   (display "\nReduccion a representante canonico de (2/4):  ")
-  (display (test_racionales(reducir_canonico ((par dos) seis))))
+  (display (test_racionales(reducir_canonico ((par dos) cuatro))))
   (display "\nSuma de racionales (1/2)+(1/2) = ")
   (display (test_racionales ((suma_racionales ((par uno) dos)) ((par uno) dos))))
   (display "\nSuma de racionales (3/4)+(4/3) = ")

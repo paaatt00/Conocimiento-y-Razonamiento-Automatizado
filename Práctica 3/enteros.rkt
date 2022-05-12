@@ -475,7 +475,7 @@
   *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. (Algoritmo extendido de Euclides)
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Recibe como parametro un numero racional y devuelve un procedimiento que dice si dicho numero es cero o no
+;; Recibe como parametro un numero racional y devuelve un procedimiento que dice si dicho numero es cero o no. Si es cero no tiene inverso.
 
 (define escero_racional (lambda (x)
                           ((esigualent (primero x)) cero)))
@@ -504,5 +504,215 @@
   (display (test_racionales ((suma_racionales ((par uno) dos)) ((par cuatro) uno))))
   (display "\nProducto de racionales (1/5)+(4/2) = ")
   (display (test_racionales ((suma_racionales ((par uno) cinco)) ((par cuatro) dos))))
+  (display "\n¿Es cero el racional (0/1)? ")
+  (display (escero_racional ((par cero) uno)))
+  (display "\n¿Es cero el racional (3/7)? ")
+  (display (escero_racional ((par uno) uno)))
   (display "\nInverso del racional (3/7) = ")
   (display (test_racionales (inverso_racionales ((par tres) siete)))))
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    CODIFICACIÓN DE MATRICES
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+
+(define testmatrices (lambda (m)
+                        (list (list (testenteros (primero (primero m))) (testenteros (segundo (primero m))))
+                              (list (testenteros (primero (segundo m))) (testenteros (segundo (segundo m))))
+                        )
+                      )
+)
+
+(define matriz (lambda (a)
+                         (lambda (b)
+                           (lambda (c)
+                             (lambda (d)
+                               ((par ((par a) b)) ((par c) d)))))))
+
+
+(define identidad ((((matriz uno) cero) cero) uno))
+
+(define matriz_nula ((((matriz cero) cero) cero) cero))
+
+(define matriz_prueba1 ((((matriz dos) cuatro) -uno) cinco))
+
+(define matriz_prueba2 ((((matriz uno) dos) dos) tres))
+
+(define matriz_prueba3 ((((matriz dos) uno) -tres) dos))
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    (d) Suma y producto.
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+#|
+  * Recibe como parametro dos matrices
+  * Devuelve un procedimiento que calcula la suma de ambos.
+  * Para ello, define una matriz a partir de la suma de los elementos de cada una de las matrices recibidas como parametro,
+  * posicion a posicion. Es decir, suma la primera posicion de la primera matriz con la primera posicion de la segunda matriz,
+  * y asi sucesivamente con cada una de las poosiciones de las matrices.
+|#
+
+(define suma_matrices (lambda (n)
+                        (lambda (m)
+                          ((((matriz
+                               ((suma_racionales(primero(primero n))) (primero(primero m))))
+                             ((suma_racionales(segundo(primero n))) (segundo(primero m))))
+                            ((suma_racionales(primero(segundo n))) (primero(segundo m))))
+                           ((suma_racionales(segundo(segundo n))) (segundo(segundo m)))))))
+
+#|
+  * Recibe como parametro dos matrices
+  * Devuelve un procedimiento que calcula el producto de ambas matrices.
+  * Para ello, realiza el proceso de muiltiplicacion de matrices comun, multiplicando cada fila de la primera matriz por la
+  * columna de la segunda matriz y definiendo una nueva matriz a partir de los resultados.
+|#
+
+(define prod_matrices (lambda (n)
+                        (lambda (m)
+                          ((((matriz
+                               ((suma_racionales
+                                 ((prod_racionales (primero(primero m))) (primero(primero n))))
+                                 ((prod_racionales (segundo(primero m))) (primero(segundo n)))))
+                               ((suma_racionales
+                                 ((prod_racionales (primero(primero m))) (segundo(primero n))))
+                                 ((prod_racionales (segundo(primero m))) (segundo(segundo n)))))
+                               ((suma_racionales
+                                 ((prod_racionales (primero(segundo m))) (primero(primero n))))
+                                 ((prod_racionales (segundo(segundo m))) (primero(segundo n)))))
+                               ((suma_racionales
+                                 ((prod_racionales (primero(segundo m))) (segundo(primero n))))
+                                 ((prod_racionales (segundo(segundo m))) (segundo(segundo n))))))))
+
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    (e) Determinante
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+
+;;------------ Determinante de una matriz
+             ; | a11    a12 |
+             ; |            | = a11*a22 - a12*a21
+             ; | a21    a22 |
+
+(define determinante (lambda (r)
+                              ((resta_racionales
+                                  ((prod_racionales (primero (primero r))) (segundo (segundo r))))
+                                  ((prod_racionales (primero (segundo r))) (segundo (primero r))))))
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+
+;------------ Rango de una matriz
+; |M|  = 0 --> rango = 1
+; |M| != 0 --> rango = 2
+
+(define rango_matriz (lambda (r)
+                       (((escero_racional (determinante r))
+                         (lambda (no_use) uno)
+                         (lambda (no_use) dos)
+                        )true)
+                     ))
+
+;----------- Matriz adjunta
+;;; (a b) = (d -c)
+;;; (c d)   (-b a)
+
+(define matriz_adjunta (lambda (r)
+                         (reducir_matrices
+                         ((((matriz 
+                             (segundo (segundo r)))
+                              (opuesto_racionales (primero (segundo r))) )
+                              (opuesto_racionales (segundo (primero r))))
+                              (primero (primero r))))
+                          ))
+
+;----------- Matriz traspuesta
+;;; (a  b)  =  (a  c)
+;;; (c  d)     (b  d)
+
+(define matriz_traspuesta (lambda (r)
+                            (reducir_matrices
+                            ((((matriz
+                                 (primero ( primero r)))
+                                 (primero ( segundo r)))
+                                 (segundo ( primero r)))
+                                 (segundo ( segundo r))))
+                            ))
+
+;------------- Comprobar si la matriz admite inversa
+
+(define inversa? (lambda (r)
+                          (
+                           (escero_racional (determinante r))
+                           false
+                           true)))
+
+;------------- División matriz entre un número
+
+(define div_matriz_num (lambda (r)
+                         (lambda (s)
+                           ((((definir_matriz
+                                ((div_racionales (primero (primero r)))s))
+                                ((div_racionales (segundo (primero r)))s))
+                                ((div_racionales (primero (segundo r)))s))
+                                ((div_racionales (segundo (segundo r)))s))
+                           )))
+
+;-------------- Matriz inversa
+; inversa =  (traspuesta(adjunta)) / determinante
+
+(define inversa (lambda (r)
+                        (
+                          (inversa? r)
+                            ; Admite inversa
+                          ((div_matriz_num
+                            (matriz_traspuesta (matriz_adjunta r)))
+                            (determinante r))
+                            ; No acepta inversión
+                            matriz_nula
+                         )
+                  ))
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    (g) Cálculo de potencias(naturales) de matrices. Este cálculo se tiene que hacer usando el algoritmo binario para el
+           cálculo de potencias, también conocido como exponenciación binaria.
+ ------------------------------------------------------------------------------------------------------------------------------------- |#
+
+;; Recibe como parametro un numero y devuelve un procedimiento que dice si dicho numero es par o no
+
+(define espar? (lambda (x)
+                 (escero((restonat x)deux))))
+
+;------------- Cuadrado de una matriz
+
+(define cuadrado_matrices (lambda (r)
+                            ((prod_matrices r)r)))
+
+#|
+  * Recibe como parametros una matriz y un numero
+  * Calcula la matriz resultante de elevar una matriz a un numero natural
+  * Devuelve un procedimiento que calcula cual seria la matriz resultado al elevar la matriz parametro al numero parametro siguiendo
+    el algoritmo recursivo de la exponenciacion binaria.
+|#
+
+(define potencia_matrices
+  (lambda (m) ; Argumento 1 (matriz)
+    (lambda (n) ; Argumento 2 (numero a elevar la matriz)
+      ((Y (lambda (f) ; Llamada a Y, f es la funcion auxiliar
+            (lambda (x) ; Argumento 1 de la funcion auxiliar
+              ((((esigualnat x)un) ; Condicion de recursividad: Si x es 1, devolvemos la matriz
+                (lambda (no_use) ; Caso base, necesario envolverlo en un lambda con argumento no_use
+                  m
+                 )
+                ((espar? x) ; Condicion de recursividad, si x es par
+                 (lambda (no_use) ; Caso recursivo, necesario envolverlo en un lambda con argumento no_use
+                   (cuadrado_matrices (f ((cocientenat x)deux)))
+                 )
+                 (lambda (no_use) ; Condicion de recursividad, si x es impar
+                   ((prod_matrices m) (f ((restanat x) un))))))
+               zero) ; Pasa zero como argumento de no_use
+              )))
+       n) ; Pasa m como el valor inicial de x.
+)))
+
+#| -------------------------------------------------------------------------------------------------------------------------------------
+  *    PRUEBAS: pruebas de operaciones con matrices
+ ------------------------------------------------------------------------------------------------------------------------------------- |#

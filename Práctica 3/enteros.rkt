@@ -475,6 +475,12 @@
   *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. (Algoritmo extendido de Euclides)
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
+;; Recibe como parametro un numero racional y devuelve un procedimiento que dice si dicho numero es cero o no
+
+(define escero_racional (lambda (x)
+                          ((esigualent (primero x)) cero)))
+
+
 ;; Recibe como parametro un número racional y devuelve un procedimiento que calcula su inverso
 
 (define inverso_racionales (lambda (n)

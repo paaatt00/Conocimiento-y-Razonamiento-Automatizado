@@ -437,15 +437,12 @@
                  (lambda (s)
                    ((cocienteent ((prodent r) s)) ((mcdent r) s)))))
 
-;; Obtenemos el opuesto de un racional
+;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula el cociente de las mismas
 
-(define opuesto_racionales (lambda (n)
-                            (reducir_canonico
-                             ((par
-                               (opuesto (primero n)))
-                               (segundo n)))
-                             ))
-
+(define cociente_racionales (lambda (x)
+                              (lambda (y)
+                                ((par ((prodent (primero x)) (segundo y)))
+                                      ((prodent (segundo x)) (primero y))))))
 
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
@@ -609,90 +606,62 @@
   *    (e) Determinante
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;;------------ Determinante de una matriz
-             ; | a11    a12 |
-             ; |            | = a11*a22 - a12*a21
-             ; | a21    a22 |
-
-(define determinante (lambda (n)
-                              ((resta_racionales
-                                  ((prod_racionales (primero (primero n))) (segundo (segundo n))))
-                                  ((prod_racionales (primero (segundo n))) (segundo (primero n))))))
+#|
+  * Recibe como parametro una matriz
+  * Devuelve un procedimiento que calcula el determinante de una matriz
+  * Como las matrices son 2 x 2, el determinante es la resta de los elementos de la primera diagonal multiplicados entre si,
+    menos los elementos de la segunda diagonal multiplicados entre si
+|#
+(define determinante (lambda(m)
+                       ((resta_racionales
+                         ((prod_racionales (primero(primero m))) (segundo(segundo m))))
+                         ((prod_racionales (segundo(primero m))) (primero(segundo m))))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
+;; Recibe como parametro una matriz y devuelve un procedimiento que dice si dicha matriz es inversible o no
+(define inversa? (lambda (m)
+                   (neg(escero_racional (determinante m)))))
 
-;; Rango de una matriz
-;; |M|  = 0 --> rango = 1
-;; |M| != 0 --> rango = 2
+#|
+ * Recibe como parametro una matriz
+ * Devuelve un procedimiento con la inversa de la matriz recibida
+ * Al ser una matriz de 2x2, se cumple que la matriz  a b   al hacer la adjunta y despues la transpuesta de la adjunta
+ *                                                    c d
+ * queda siempre como  d -b   por lo que lo hemos implementado de forma bruta
+ *                    -c  a
+|#
+(define inversa (lambda (m)
+                  ((((definir_matriz
+                       ((prod_racionales
+                         (segundo(segundo m)))
+                        ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))
+                     ((prod_racionales
+                       ((resta_racionales(segundo(primero m))) ((prod_racionales ((par dos) uno)) (segundo(primero m)))))
+                      ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))
+                    ((prod_racionales
+                      ((resta_racionales(primero(segundo m))) ((prod_racionales ((par dos) uno)) (primero(segundo m)))))
+                     ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))
+                  ((prod_racionales
+                    (primero(primero m)))
+                   ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))))
 
-(define rango_matriz (lambda (n)
-                       (((escero_racional (determinante n))
-                         (lambda (no_use) uno)
-                         (lambda (no_use) dos)
-                        )true)
-                     ))
 
-;; Matriz adjunta: obtenemos la matriz adjunta de la siguiente manera:
-;; (a b) = (d -c)
-;; (c d)   (-b a)
+;; Recibe como parametro una matriz y devuelve un procedimiento que dice si una matriz es nula o no
+(define matriz_nula? (lambda (n)
+                       (and
+                        (and(escero_racional (primero(primero n)))
+                            (escero_racional (segundo(primero n))))
+                        (and(escero_racional (primero(segundo n)))
+                            (escero_racional (segundo(segundo n)))))))
 
-(define matriz_adjunta (lambda (n)
-                         (reducir_matrices
-                         ((((matriz 
-                             (segundo (segundo n)))
-                              (opuesto_racionales (primero (segundo n))) )
-                              (opuesto_racionales (segundo (primero n))))
-                              (primero (primero n))))
-                          ))
+;; Recibe como parametro una matriz y devuelve un procedimiento que calcula el rango de la misma
+(define rango (lambda (m)
+                ((matriz_nula? m) cero
+                                  ((escero_racional(determinante m)) uno dos))))
 
-;; Matriz traspuesta: obtiene la traspuesta de la matriz de la siguiente manera:
-;; (a  b)  =  (a  c)
-;; (c  d)     (b  d)
 
-(define matriz_traspuesta (lambda (n)
-                            (reducir_matrices
-                            ((((matriz
-                                 (primero ( primero n)))
-                                 (primero ( segundo n)))
-                                 (segundo ( primero n)))
-                                 (segundo ( segundo n))))
-                            ))
-
-;; Comprobar si la matriz admite inversa
-
-(define inversa? (lambda (n)
-                          (
-                           (escero_racional (determinante n))
-                           false
-                           true)))
-
-;; División matriz entre un número
-
-(define div_matriz_num (lambda (n)
-                         (lambda (m)
-                           ((((definir_matriz
-                                ((div_racionales (primero (primero n)))m))
-                                ((div_racionales (segundo (primero n)))m))
-                                ((div_racionales (primero (segundo n)))m))
-                                ((div_racionales (segundo (segundo n)))m))
-                           )))
-
-;; Matriz inversa: recibe como parametro una matriz. Devuelve un procedimiento con la inversa de la matriz recibida.
-;; inversa =  (traspuesta(adjunta)) / determinante.
-
-(define inversa (lambda (n)
-                        (
-                          (inversa? n)
-                            ; Admite inversa
-                          ((div_matriz_num
-                            (matriz_traspuesta (matriz_adjunta n)))
-                            (determinante n))
-                            ; No acepta inversión
-                            matriz_nula
-                         )
-                  ))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (g) Cálculo de potencias(naturales) de matrices. Este cálculo se tiene que hacer usando el algoritmo binario para el
@@ -750,11 +719,11 @@
   (display "\n¿Es inversible la matriz de prueba 1?: ")
   (display(inversa? matriz_prueba1))
   (display "\n¿Es inversible la matriz de prueba 2?: ")
- ; (display (inversa? matriz_prueba2))
+  (display (inversa? matriz_prueba2))
   (display "\nDeterminante matriz de prueba 1: ")
- ; (display (test_racionales (determinante matriz_prueba1)))
+  (display (test_racionales (determinante matriz_prueba1)))
   (display "\nDeterminante matriz de prueba 2: ")
- ; (display (test_racionales (determinante matriz_prueba2)))
+  (display (test_racionales (determinante matriz_prueba2)))
   (display "\nMatriz de prueba 1 + Matriz de prueba 2: ")
   (display (testmatrices ((suma_matrices matriz_prueba1) matriz_prueba2)))
   (display "\nMatriz de prueba 1 x Matriz de prueba 2: ")

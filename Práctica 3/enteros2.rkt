@@ -428,7 +428,7 @@
   *    CODIFICACIÓN DE RACIONALES
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-(define test_racionales (lambda (x) ; Convierte el número racional en una lista para imprimirlo por pantalla
+(define test_enteros (lambda (x) ; Convierte el número racional en una lista para imprimirlo por pantalla
                           (list (testenteros(primero x)) (testenteros(segundo x)))))
 
 ;; Mínimo común múltiplo
@@ -439,7 +439,7 @@
 
 ;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula el cociente de las mismas
 
-(define cociente_racionales (lambda (x)
+(define cociente_enteros (lambda (x)
                               (lambda (y)
                                 ((par ((prodent (primero x)) (segundo y)))
                                       ((prodent (segundo x)) (primero y))))))
@@ -454,6 +454,8 @@
 (define reducir_canonico (lambda (x)
                           ((par((cocienteent (primero x)) ((mcdent (primero x)) (segundo x))))
                            ((cocienteent (segundo x)) ((mcdent (primero x)) (segundo x))))))
+
+;(define reducir_canonico_aux ((restoent 10) (reducir_canonico nueve)))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (b) ARITMETICA: suma y producto de racionales 
@@ -515,7 +517,7 @@
 (define (pruebaRacionales)
   (display "------------------------ PRUEBA RACIONALES ------------------------\n")
   (display "\nReduccion a representante canonico de (2/4):  ")
-  (display (test_racionales(reducir_canonico ((par dos) cuatro))))
+  (display (testenteros(reducir_canonico ((par dos) cuatro))))
   (display "\nSuma de racionales (1/2)+(1/2) = ")
   (display (test_racionales ((suma_racionales ((par uno) dos)) ((par uno) dos))))
   (display "\nSuma de racionales (3/4)+(4/3) = ")
@@ -717,13 +719,13 @@
   (display "\n Matriz prueba 2: ")
   (display (testmatrices matriz_prueba2))
   (display "\n¿Es inversible la matriz de prueba 1?: ")
-  (display(inversa? matriz_prueba1))
+;  (display(inversa? matriz_prueba1))
   (display "\n¿Es inversible la matriz de prueba 2?: ")
-  (display (inversa? matriz_prueba2))
+;  (display (inversa? matriz_prueba2))
   (display "\nDeterminante matriz de prueba 1: ")
-  (display (test_racionales (determinante matriz_prueba1)))
+ ; (display (test_racionales (determinante matriz_prueba1)))
   (display "\nDeterminante matriz de prueba 2: ")
-  (display (test_racionales (determinante matriz_prueba2)))
+  ;(display (test_racionales (determinante matriz_prueba2)))
   (display "\nMatriz de prueba 1 + Matriz de prueba 2: ")
   (display (testmatrices ((suma_matrices matriz_prueba1) matriz_prueba2)))
   (display "\nMatriz de prueba 1 x Matriz de prueba 2: ")

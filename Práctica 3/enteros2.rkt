@@ -426,7 +426,7 @@
 
 ;; Definimos el módulo que se va a aplicar a todas las funciones como una "variable global".
 
-(define mod siete)
+(define mod doce)
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    CODIFICACIÓN DE ENTEROS
@@ -504,13 +504,37 @@
 
 ;; Recibe como parametro un número entero y devuelve un procedimiento que calcula su inverso.
 
-#|
-(define inverso_enteros (lambda (x)
-                          ((inversa_enteros? x) ; movidote
-                                                false)
-                          )
+
+(define inverso_enteros (lambda (n)
+                          ((inversa_enteros? n)
+                           ((calcular_inverso n) cero) ; Inicializamos contador a 0
+                           cero            
+                          ))
   )
-|#
+
+
+(define calcular_inverso (
+                          lambda (n)
+                           (lambda (c)
+                             (((Y (lambda (f)
+                                (lambda(x)
+                                  (lambda(y)
+                                    ((((esmayoroigualent y) mod) ; Si el contador es mayor o igual al modulo
+                                      (lambda (no_use)
+                                        cero)                ; Devuelve 0                 
+                                      (lambda (no_use)
+                                        ((((esigualent uno)((aplicar_modulo ((prodent x)y)) mod)) ; Sino, si es igual el modulo de el prodcto del numero por el candidato a inverso a 1, 
+                                                                                                  ; quiere decir que ese valor es el inverso y lo retornamos
+                                        (lambda (no_use)
+                                             y)
+                                        (lambda (no_use)
+                                             ((f x)((sument y) uno)) ; Aumentamos contador en 1
+                                          )
+                                        )cero)))cero) ; Pasamos cero como parametro de no_use
+                                    ))))
+                                  n)c)))
+)
+                                  
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    PRUEBAS: pruebas de operaciones con racionales
@@ -538,6 +562,7 @@
   (display (escero_racional ((par uno) uno)))
   (display "\nInverso del racional (3/7) = ")
   (display (test_racionales (inverso_racionales ((par tres) siete)))))
+  ;(testenteros ((calcular_inverso cinco)cero))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    CODIFICACIÓN DE MATRICES

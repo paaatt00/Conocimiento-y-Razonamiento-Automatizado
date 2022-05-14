@@ -424,31 +424,27 @@
   *        Isabel Blanco Martínez
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
+;; Definimos el módulo que se va a aplicar a todas las funciones como una "variable global".
+
 (define mod siete)
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    CODIFICACIÓN DE ENTEROS
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-(define test_enteros (lambda (x) ; Convierte el número entero en una lista para imprimirlo por pantalla
-                          (list (testenteros(primero x)) (testenteros(segundo x)))))
+;; Convierte el número entero en una lista para imprimirlo por pantalla.
 
-;; Mínimo común múltiplo
+(define test_enteros (lambda (x) 
+                       (list (testenteros(primero x)) (testenteros(segundo x)))))
+
+;; Mínimo común múltiplo.
 
 (define mcment (lambda (r)
                  (lambda (s)
                    ((cocienteent ((prodent r) s)) ((mcdent r) s)))))
 
-;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula el cociente de las mismas
-
-(define cociente_enteros (lambda (x)
-                              (lambda (y)
-                                ((par ((prodent (primero x)) (segundo y)))
-                                      ((prodent (segundo x)) (primero y))))))
-
-
 #| -------------------------------------------------------------------------------------------------------------------------------------
-  *    (a) Reducción a representante canonico
+  *    (a) Reducción a representante canónico.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
 ;; Recibe como parámetro dos pares y devuelve el resto. 
@@ -457,70 +453,64 @@
                          (lambda (p)
                            ((restoent x) p))))
 
-;; Recibe como parametro un numero racional y devuelve un procedimiento que reduce dicho numero a forma canonica
+;; Recibe como parámetro un numero racional y devuelve un procedimiento que reduce dicho numero a forma canónica.
 
- (define reducir_canonico (lambda (x)
-                          ((par((cocienteent (primero x)) ((mcdent (primero x)) (segundo x))))
-                           ((cocienteent (segundo x)) ((mcdent (primero x)) (segundo x))))))
-
-
+(define reducir_canonico (lambda (x)
+                           ((par((cocienteent (primero x)) ((mcdent (primero x)) (segundo x))))
+                            ((cocienteent (segundo x)) ((mcdent (primero x)) (segundo x))))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
-  *    (b) ARITMETICA: suma y producto de racionales 
+  *    (b) ARITMETICA: suma y producto. 
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula la suma de los mismos
+;; Recibe como parámetros dos numeros enteros y devuelve un procedimiento que calcula la suma de los mismos.
 
 (define suma_enteros (lambda (m)
                        (lambda (n)
-                         (testenteros ((aplicar_modulo ((sument m) n)) mod))
-                         )
-                       )
-  )
+                         (testenteros ((aplicar_modulo ((sument m) n)) mod)))))
 
-;; Resta racionales recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula la resta de ambos.
+;; Recibe como parámetros dos numeros enteros y devuelve un procedimiento que calcula la resta de los mismos.
 ;; Necesario para calcular el determinante de las matrices.
+
 (define resta_enteros (lambda (m)
                         (lambda (n)
-                          (testenteros ((aplicar_modulo ((restaent m) n)) mod))
-                          )
-                        )
-  )
+                          (testenteros ((aplicar_modulo ((restaent m) n)) mod)))))
 
-;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula el producto de los mismos
+;; Recibe como parámetros dos numeros enteros y devuelve un procedimiento que calcula el producto de los mismos.
 
 (define prod_enteros (lambda (m)
                        (lambda (n)
-                         (testenteros ((aplicar_modulo ((prodent m) n)) mod))
-                         )
-                       )
-  )
+                         (testenteros ((aplicar_modulo ((prodent m) n)) mod)))))
 
-;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula el cociente de los mismos
+;; Recibe como parámetros dos numeros enteros y devuelve un procedimiento que calcula el cociente de los mismos.
 
 (define cociente_enteros (lambda(m)
                            (lambda (n)
-                             (testenteros ((aplicar_modulo ((cocienteent m) n)) mod))
-                             )
-                           )
-  )
+                             (testenteros ((aplicar_modulo ((cocienteent m) n)) mod)))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. (Algoritmo extendido de Euclides)
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Recibe como parametro un numero racional y devuelve un procedimiento que dice si dicho numero es cero o no. Si es cero no tiene inverso.
+;; Recibe como parametro un numero entero y devuelve un procedimiento que dice si dicho numero es cero o no. Si es cero no tiene inverso.
 
-(define escero_racional (lambda (x)
-                          ((esigualent (primero x)) cero)))
+(define escero_enteros (lambda (x)
+                          ((esigualent x) cero)))
 
+;; Recibe como parámetro un número entero y devuelve un procedimiento que dice si tiene o no un inverso modular.
 
-;; Recibe como parametro un número racional y devuelve un procedimiento que calcula su inverso
+(define inversa_enteros? (lambda (x)
+                           (((esigualent ((mcdent x) mod)) uno) true false)))
 
-(define inverso_racionales (lambda (x)
-                             ((par
-                               (segundo x))
-                              (primero x))))
+;; Recibe como parametro un número entero y devuelve un procedimiento que calcula su inverso.
+
+#|
+(define inverso_enteros (lambda (x)
+                          ((inversa_enteros? x) ; movidote
+                                                false)
+                          )
+  )
+|#
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    PRUEBAS: pruebas de operaciones con racionales
@@ -554,17 +544,17 @@
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
 (define testmatrices (lambda (m)
-                        (list (list (testenteros (primero (primero m))) (testenteros (segundo (primero m))))
-                              (list (testenteros (primero (segundo m))) (testenteros (segundo (segundo m))))
-                        )
-                      )
-)
+                       (list (list (testenteros (primero (primero m))) (testenteros (segundo (primero m))))
+                             (list (testenteros (primero (segundo m))) (testenteros (segundo (segundo m))))
+                             )
+                       )
+  )
 
 (define matriz (lambda (a)
-                         (lambda (b)
-                           (lambda (c)
-                             (lambda (d)
-                               ((par ((par a) b)) ((par c) d)))))))
+                 (lambda (b)
+                   (lambda (c)
+                     (lambda (d)
+                       ((par ((par a) b)) ((par c) d)))))))
 
 
 (define identidad ((((matriz uno) cero) cero) uno))
@@ -591,10 +581,10 @@
 (define suma_matrices (lambda (n)
                         (lambda (m)
                           ((((matriz
-                               ((suma_racionales(primero(primero n))) (primero(primero m))))
-                             ((suma_racionales(segundo(primero n))) (segundo(primero m))))
-                            ((suma_racionales(primero(segundo n))) (primero(segundo m))))
-                           ((suma_racionales(segundo(segundo n))) (segundo(segundo m)))))))
+                              ((suma_enteros(primero(primero n))) (primero(primero m))))
+                             ((suma_enteros(segundo(primero n))) (segundo(primero m))))
+                            ((suma_enteros(primero(segundo n))) (primero(segundo m))))
+                           ((suma_enteros(segundo(segundo n))) (segundo(segundo m)))))))
 
 #|
   * Recibe como parametro dos matrices
@@ -606,18 +596,18 @@
 (define prod_matrices (lambda (n)
                         (lambda (m)
                           ((((matriz
-                               ((suma_racionales
-                                 ((prod_racionales (primero(primero m))) (primero(primero n))))
-                                 ((prod_racionales (segundo(primero m))) (primero(segundo n)))))
-                               ((suma_racionales
-                                 ((prod_racionales (primero(primero m))) (segundo(primero n))))
-                                 ((prod_racionales (segundo(primero m))) (segundo(segundo n)))))
-                               ((suma_racionales
-                                 ((prod_racionales (primero(segundo m))) (primero(primero n))))
-                                 ((prod_racionales (segundo(segundo m))) (primero(segundo n)))))
-                               ((suma_racionales
-                                 ((prod_racionales (primero(segundo m))) (segundo(primero n))))
-                                 ((prod_racionales (segundo(segundo m))) (segundo(segundo n))))))))
+                              ((suma_racionales
+                                ((prod_racionales (primero(primero m))) (primero(primero n))))
+                               ((prod_racionales (segundo(primero m))) (primero(segundo n)))))
+                             ((suma_racionales
+                               ((prod_racionales (primero(primero m))) (segundo(primero n))))
+                              ((prod_racionales (segundo(primero m))) (segundo(segundo n)))))
+                            ((suma_racionales
+                              ((prod_racionales (primero(segundo m))) (primero(primero n))))
+                             ((prod_racionales (segundo(segundo m))) (primero(segundo n)))))
+                           ((suma_racionales
+                             ((prod_racionales (primero(segundo m))) (segundo(primero n))))
+                            ((prod_racionales (segundo(segundo m))) (segundo(segundo n))))))))
 
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
@@ -633,7 +623,7 @@
 (define determinante (lambda(m)
                        ((resta_racionales
                          ((prod_racionales (primero(primero m))) (segundo(segundo m))))
-                         ((prod_racionales (segundo(primero m))) (primero(segundo m))))))
+                        ((prod_racionales (segundo(primero m))) (primero(segundo m))))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
@@ -661,9 +651,9 @@
                     ((prod_racionales
                       ((resta_racionales(primero(segundo m))) ((prod_racionales ((par dos) uno)) (primero(segundo m)))))
                      ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))
-                  ((prod_racionales
-                    (primero(primero m)))
-                   ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))))
+                   ((prod_racionales
+                     (primero(primero m)))
+                    ((cociente_racionales ((par uno)uno)) ((par (primero(determinante m))) (segundo(determinante m))))))))
 
 
 ;; Recibe como parametro una matriz y devuelve un procedimiento que dice si una matriz es nula o no
@@ -711,17 +701,17 @@
               ((((esigualnat x)un) ; Condicion de recursividad: Si x es 1, devolvemos la matriz
                 (lambda (no_use) ; Caso base, necesario envolverlo en un lambda con argumento no_use
                   m
-                 )
+                  )
                 ((espar? x) ; Condicion de recursividad, si x es par
                  (lambda (no_use) ; Caso recursivo, necesario envolverlo en un lambda con argumento no_use
                    (cuadrado_matrices (f ((cocientenat x)deux)))
-                 )
+                   )
                  (lambda (no_use) ; Condicion de recursividad, si x es impar
                    ((prod_matrices m) (f ((restanat x) un))))))
                zero) ; Pasa zero como argumento de no_use
               )))
        n) ; Pasa m como el valor inicial de x.
-)))
+      )))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    PRUEBAS: pruebas de operaciones con matrices
@@ -735,11 +725,11 @@
   (display "\n Matriz prueba 2: ")
   (display (testmatrices matriz_prueba2))
   (display "\n¿Es inversible la matriz de prueba 1?: ")
-;  (display(inversa? matriz_prueba1))
+  ;  (display(inversa? matriz_prueba1))
   (display "\n¿Es inversible la matriz de prueba 2?: ")
-;  (display (inversa? matriz_prueba2))
+  ;  (display (inversa? matriz_prueba2))
   (display "\nDeterminante matriz de prueba 1: ")
- ; (display (test_racionales (determinante matriz_prueba1)))
+  ; (display (test_racionales (determinante matriz_prueba1)))
   (display "\nDeterminante matriz de prueba 2: ")
   ;(display (test_racionales (determinante matriz_prueba2)))
   (display "\nMatriz de prueba 1 + Matriz de prueba 2: ")

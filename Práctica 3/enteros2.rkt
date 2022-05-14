@@ -424,11 +424,13 @@
   *        Isabel Blanco Martínez
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
+(define mod siete)
+
 #| -------------------------------------------------------------------------------------------------------------------------------------
-  *    CODIFICACIÓN DE RACIONALES
+  *    CODIFICACIÓN DE ENTEROS
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-(define test_enteros (lambda (x) ; Convierte el número racional en una lista para imprimirlo por pantalla
+(define test_enteros (lambda (x) ; Convierte el número entero en una lista para imprimirlo por pantalla
                           (list (testenteros(primero x)) (testenteros(segundo x)))))
 
 ;; Mínimo común múltiplo
@@ -449,13 +451,19 @@
   *    (a) Reducción a representante canonico
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
+;; Recibe como parámetro dos pares y devuelve el resto. 
+
+(define aplicar_modulo (lambda (x)
+                         (lambda (p)
+                           ((restoent x) p))))
+
 ;; Recibe como parametro un numero racional y devuelve un procedimiento que reduce dicho numero a forma canonica
 
 (define reducir_canonico (lambda (x)
                           ((par((cocienteent (primero x)) ((mcdent (primero x)) (segundo x))))
                            ((cocienteent (segundo x)) ((mcdent (primero x)) (segundo x))))))
 
-;(define reducir_canonico_aux ((restoent 10) (reducir_canonico nueve)))
+
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (b) ARITMETICA: suma y producto de racionales 
@@ -463,14 +471,39 @@
 
 ;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula la suma de los mismos
 
-(define suma_racionales (lambda (n)
+(define suma_enteros (lambda (n)
                           (lambda (m)
-                            (reducir_canonico
+                            ((aplicar_modulo
                              ((par
                                ((sument
                                  ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
                                 ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
-                              ((mcment (segundo n)) (segundo m)))))))
+                              ((mcment (segundo n)) (segundo m)))) (mod)))))
+
+(define suma_enteros2 (lambda (n)
+                          (lambda (m)
+                            ((aplicar_modulo
+                             ((par
+                               ((sument
+                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
+                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
+                              ((mcment (segundo n)) (segundo m)))
+                             )
+                             siete
+                             )
+                            )
+                       )
+  )
+
+(define suma_enteros3 (lambda (n)
+                          (lambda (m)
+                            ((aplicar_modulo
+                             ((par
+                               ((sument
+                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
+                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
+                              ((mcment (segundo n)) (segundo m))) siete)))))
+
 
 ;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula el producto de los mismos
 
@@ -516,6 +549,10 @@
 
 (define (pruebaRacionales)
   (display "------------------------ PRUEBA RACIONALES ------------------------\n")
+  (display "\n3 mod 7:  ")
+  (display (testenteros ((aplicar_modulo tres) siete)))
+  (display "\n20 mod 3:  ")
+  (display (testenteros ((aplicar_modulo veinte) tres)))
   (display "\nReduccion a representante canonico de (2/4):  ")
   (display (testenteros(reducir_canonico ((par dos) cuatro))))
   (display "\nSuma de racionales (1/2)+(1/2) = ")

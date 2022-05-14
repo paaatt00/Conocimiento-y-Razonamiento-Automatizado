@@ -459,7 +459,7 @@
 
 ;; Recibe como parametro un numero racional y devuelve un procedimiento que reduce dicho numero a forma canonica
 
-(define reducir_canonico (lambda (x)
+ (define reducir_canonico (lambda (x)
                           ((par((cocienteent (primero x)) ((mcdent (primero x)) (segundo x))))
                            ((cocienteent (segundo x)) ((mcdent (primero x)) (segundo x))))))
 
@@ -469,62 +469,41 @@
   *    (b) ARITMETICA: suma y producto de racionales 
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula la suma de los mismos
+;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula la suma de los mismos
 
-(define suma_enteros (lambda (n)
-                          (lambda (m)
-                            ((aplicar_modulo
-                             ((par
-                               ((sument
-                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
-                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
-                              ((mcment (segundo n)) (segundo m)))) (mod)))))
-
-(define suma_enteros2 (lambda (n)
-                          (lambda (m)
-                            ((aplicar_modulo
-                             ((par
-                               ((sument
-                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
-                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
-                              ((mcment (segundo n)) (segundo m)))
-                             )
-                             siete
-                             )
-                            )
+(define suma_enteros (lambda (m)
+                       (lambda (n)
+                         (testenteros ((aplicar_modulo ((sument m) n)) mod))
+                         )
                        )
   )
 
-(define suma_enteros3 (lambda (n)
-                          (lambda (m)
-                            ((aplicar_modulo
-                             ((par
-                               ((sument
-                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
-                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
-                              ((mcment (segundo n)) (segundo m))) siete)))))
-
-
-;; Recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula el producto de los mismos
-
-(define prod_racionales (lambda (n)
-                          (lambda (m)
-                            (reducir_canonico
-                             ((par
-                                 ((prodent (primero n)) (primero m)))
-                                 ((prodent (segundo n)) (segundo m)))))))
-
 ;; Resta racionales recibe como parametros dos numeros racionales y devuelve un procedimiento que calcula la resta de ambos.
 ;; Necesario para calcular el determinante de las matrices.
+(define resta_enteros (lambda (m)
+                        (lambda (n)
+                          (testenteros ((aplicar_modulo ((restaent m) n)) mod))
+                          )
+                        )
+  )
 
-(define resta_racionales (lambda (n)
-                          (lambda (m)
-                            (reducir_canonico
-                             ((par
-                               ((restaent
-                                 ((prodent (primero n)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo n))))
-                                ((prodent (primero m)) ((cocienteent ((mcment (segundo n)) (segundo m))) (segundo m)))))
-                              ((mcment (segundo n)) (segundo m)))))))
+;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula el producto de los mismos
+
+(define prod_enteros (lambda (m)
+                       (lambda (n)
+                         (testenteros ((aplicar_modulo ((prodent m) n)) mod))
+                         )
+                       )
+  )
+
+;; Recibe como parametros dos numeros enteros y devuelve un procedimiento que calcula el cociente de los mismos
+
+(define cociente_enteros (lambda(m)
+                           (lambda (n)
+                             (testenteros ((aplicar_modulo ((cocienteent m) n)) mod))
+                             )
+                           )
+  )
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. (Algoritmo extendido de Euclides)
@@ -554,7 +533,7 @@
   (display "\n20 mod 3:  ")
   (display (testenteros ((aplicar_modulo veinte) tres)))
   (display "\nReduccion a representante canonico de (2/4):  ")
-  (display (testenteros(reducir_canonico ((par dos) cuatro))))
+  (display (test_enteros (reducir_canonico ((par deux) quatre))))
   (display "\nSuma de racionales (1/2)+(1/2) = ")
   (display (test_racionales ((suma_racionales ((par uno) dos)) ((par uno) dos))))
   (display "\nSuma de racionales (3/4)+(4/3) = ")
@@ -783,3 +762,4 @@
   (display (testenteros(rango matriz_prueba2)))
   (display "\nRango matriz nula: ")
   (display (testenteros(rango matriz_nula))))
+

@@ -660,6 +660,9 @@
 
 (define inversa_matriz (lambda (m)
                          ((esceroent (determinante m)) matriz_nula (inversa_matriz_aux m))))
+; (testmatrices(inversa_matriz matriz_prueba2)) --> no tiene inversa y sale nula
+; (testmatrices(inversa_matriz matriz_prueba2)) --> tiene inversa y convierte (-3, 2, 2, 1)
+
 
 ;; Multiplica el determinante por la matriz adjunta. 
 
@@ -668,16 +671,18 @@
 
 ;; Dada una matriz devuelve la matriz adjunta, que es la diagonal secundaria con los números en negativo.
 
-(define matriz_adjunta (lambda (m1)
+(define matriz_adjunta (lambda (m1)                         
                          ((((matriz 
-                             (representante_canonico (segundo (segundo m1))))
-                            (representante_canonico ((restaent cero) (primero (segundo m1)))))
-                           (representante_canonico ((restaent cero) (segundo (primero m1)))))
-                          (representante_canonico (primero (primero m1))))))
+                             ((representante_canonico (segundo (segundo m1)))mod))
+                            ((representante_canonico ((restaent cero) (primero (segundo m1))))mod))
+                           ((representante_canonico ((restaent cero) (segundo (primero m1))))mod))
+                          ((representante_canonico (primero (primero m1)))mod))
+                         ))
+;(testmatrices(matriz_adjunta matriz_prueba1))
 
 ;; Dada una matriz devuelve la traspuesta.
 
-(define matriz_transpuesta (lambda (m)
+(define matriz_traspuesta (lambda (m)
                              ((((matriz 
                                  (primero (primero m)))
                                 (primero (segundo m)))

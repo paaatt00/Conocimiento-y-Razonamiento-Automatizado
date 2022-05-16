@@ -437,11 +437,6 @@
 (define test_enteros (lambda (x) 
                        (list (testenteros(primero x)) (testenteros(segundo x)))))
 
-;; Mínimo común múltiplo.
-
-(define mcment (lambda (r)
-                 (lambda (s)
-                   ((cocienteent ((prodent r) s)) ((mcdent r) s)))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (a) Reducción a representante canónico.
@@ -464,7 +459,6 @@
                          ((representante_canonico ((sument m) n)) mod))))
 
 ;; Recibe como parámetros dos numeros enteros y devuelve un procedimiento que calcula la resta de los mismos.
-;; Necesario para calcular el determinante de las matrices.
 
 (define resta_enteros (lambda (m)
                         (lambda (n)
@@ -483,7 +477,7 @@
                              ((representante_canonico ((cocienteent m) n)) mod))))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
-  *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. (Algoritmo extendido de Euclides)
+  *    (c) Decisión sobre la inversibilidad y cálculo del inverso en el caso de que exista. 
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
 ;; Recibe como parametro un numero entero y devuelve un procedimiento que dice si dicho numero es cero o no. Si es cero no tiene inverso.
@@ -504,16 +498,19 @@
                            cero            
                            )))
 
-(define calcular_inverso (lambda (n)
-                           (lambda (c)
-                             (((Y (lambda (f)
-                                    (lambda(x)
-                                      (lambda(y)
+;; Función recursiva para calcular el inverso: mediante un contador va a comprobar con cada numero hasta llegar al modulo la siguiente formula:
+;; (A * A^-1) = 1 (un numero por su inverso es igual a 1) --> siendo A^-1 nuestro candidato (c).
+
+(define calcular_inverso (lambda (n) ; definimos A
+                           (lambda (c) ; definimos el contador para el candidato
+                             (((Y (lambda (f) ; mediante combinador de punto fijo creamos funcion recursiva f
+                                    (lambda(x) ; equivalente a n
+                                      (lambda(y) ; equivalente a c
                                         ((((esmayoroigualent y) mod) ; si el contador es mayor o igual al modulo
                                           (lambda (no_use)
                                             cero)                ; devuelve 0                 
                                           (lambda (no_use)
-                                            ((((esigualent uno)((representante_canonico ((prodent x)y)) mod)) ; sino, si es igual el modulo de el prodcto del numero por el candidato a inverso a 1, 
+                                            ((((esigualent uno)((representante_canonico ((prodent x)y)) mod)) ; sino, si es igual el modulo de el producto del numero por el candidato a inverso a 1, 
                                               ; quiere decir que ese valor es el inverso y lo retornamos
                                               (lambda (no_use)
                                                 y)
@@ -578,10 +575,7 @@
 
 #|
   * Recibe como parametro dos matrices
-  * Devuelve un procedimiento que calcula la suma de ambos.
-  * Para ello, define una matriz a partir de la suma de los elementos de cada una de las matrices recibidas como parametro,
-  * posicion a posicion. Es decir, suma la primera posicion de la primera matriz con la primera posicion de la segunda matriz,
-  * y asi sucesivamente con cada una de las poosiciones de las matrices.
+  * Devuelve un procedimiento que calcula la suma de ambos. El modulo lo aplica en suma_enteros pasado de forma global.
 |#
 
 (define suma_matrices (lambda (m)
@@ -595,8 +589,6 @@
 #|
   * Recibe como parametro dos matrices
   * Devuelve un procedimiento que calcula el producto de ambas matrices.
-  * Para ello, realiza el proceso de muiltiplicacion de matrices comun, multiplicando cada fila de la primera matriz por la
-  * columna de la segunda matriz y definiendo una nueva matriz a partir de los resultados.
 |#
 
 (define producto_matrices (lambda (m)
@@ -616,6 +608,7 @@
   * Devuelve un procedimiento que calcula el determinante de una matriz.
   * Como las matrices son 2 x 2, el determinante es la resta de los elementos de la primera diagonal multiplicados entre sí,
     menos los elementos de la segunda diagonal multiplicados entre sí.
+  * El módulo se aplica con la función representante_canónico pasándole el mod global.
 |#
 
 (define determinante (lambda (m)
@@ -625,15 +618,6 @@
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
-
-#|
- * Recibe como parametro una matriz
- * Devuelve un procedimiento con la inversa de la matriz recibida
- * Al ser una matriz de 2x2, se cumple que la matriz  a b   al hacer la adjunta y despues la transpuesta de la adjunta
- *                                                    c d
- * queda siempre como  d -b   por lo que lo hemos implementado de forma bruta
- *                    -c  a
-|#
 
 ;; Dada una matriz y un número entero, devuelve un procedimiento con el resultado de la multiplicación de dicho número por todos
 ;; los elementos de la matriz.
@@ -656,7 +640,7 @@
 ; (inversa_matriz? matriz_prueba1)
 
 ;; Dada la matriz calcula la inversa. 
-;; Hace uso del método calculo_inversa_aux.
+;; Hace uso del método inversa_matriz_aux.
 
 (define inversa_matriz (lambda (m)
                          ((esceroent (determinante m)) matriz_nula (inversa_matriz_aux m))))

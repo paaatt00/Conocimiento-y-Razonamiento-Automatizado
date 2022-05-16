@@ -762,7 +762,7 @@
                                                                                              ; llama a recursion dividiendo entre 2 el exponente                                           
                                             (lambda (no_use)
                                               ((producto_matrices m)(f ((restaent e) uno))))) cero)  ; si es impar se multiplica la matriz
-                                          por el valor del exponente menos uno
+                                                                                                     ; por el valor del exponente menos uno
                                           )
                                         )
                                        cero)

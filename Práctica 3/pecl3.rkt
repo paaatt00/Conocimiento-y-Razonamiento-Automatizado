@@ -619,8 +619,10 @@
   *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Dada una matriz y un número entero, devuelve un procedimiento con el resultado de la multiplicación de dicho número por todos
-;; los elementos de la matriz.
+#|
+ * Dada una matriz y un número entero, devuelve un procedimiento con el resultado de la multiplicación de dicho número por todos
+ * los elementos de la matriz.
+|#
 
 (define prod_escalar (lambda (m)
                        (lambda (n)
@@ -630,41 +632,60 @@
                            ((prod_enteros (primero (segundo m))) n))
                           ((prod_enteros (segundo (segundo m))) n)))))
 
-; (testmatrices((prod_escalar matriz_prueba3) dos))
+; Prueba: (testmatrices((prod_escalar matriz_prueba3) dos))
 
-;; Decisión sobre inversibilidad de una matriz dependiendo de si el determinante es 0 (si es 0 no tiene).
+#|
+ * Decisión sobre inversibilidad de una matriz dependiendo de si el determinante es 0 (si es 0 no tiene).
+ * Devuelve un procedimiento con la inversa de la matriz recibida 
+|#
 
 (define inversa_matriz? (lambda (m)
                           ((esceroent (determinante m)) false true)))
 
-; (inversa_matriz? matriz_prueba1)
+; Prueba: (inversa_matriz? matriz_prueba1)
 
-;; Dada la matriz calcula la inversa. 
-;; Hace uso del método inversa_matriz_aux.
+#|
+ * Dada la matriz calcula la inversa. 
+ * Si es 0 el determinante de la matriz devuelve matriz nula (no tiene inverso). Sino llama a inversa_matriz_aux para calcular su inversa.
+|#
 
 (define inversa_matriz (lambda (m)
                          ((esceroent (determinante m)) matriz_nula (inversa_matriz_aux m))))
-; (testmatrices(inversa_matriz matriz_prueba2)) --> no tiene inversa y sale nula
-; (testmatrices(inversa_matriz matriz_prueba2)) --> tiene inversa y convierte (-3, 2, 2, 1)
 
+; Prueba: (testmatrices(inversa_matriz matriz_prueba1)) --> no tiene inversa y sale nula
+; Prueba: (testmatrices(inversa_matriz matriz_prueba2)) --> tiene inversa y convierte (-3, 2, 2, 1)
 
-;; Multiplica el determinante por la matriz adjunta. 
+#|
+ * Recibe como parametro una matriz
+ * Multiplica el determinante por la matriz adjunta con el producto escalar.
+ * Al ser una matriz de 2x2, se cumple que la matriz  a b   al hacer la adjunta y despues la transpuesta de la adjunta
+ *                                                    c d
+ * queda siempre como  d -b .
+ *                    -c  a
+|#
 
 (define inversa_matriz_aux (lambda (m)
                              ((prod_escalar (matriz_traspuesta (matriz_adjunta m))) (inverso_enteros (determinante m)))))
 
-;; Dada una matriz devuelve la matriz adjunta, que es la diagonal secundaria con los números en negativo.
+#|
+ * Recibe como parametro una matriz. 
+ * Dada una matriz devuelve la matriz adjunta, que es la diagonal secundaria con los números en negativo.
+|#
 
-(define matriz_adjunta (lambda (m1)                         
+(define matriz_adjunta (lambda (m)                         
                          ((((matriz 
-                             ((representante_canonico (segundo (segundo m1)))mod))
-                            ((representante_canonico ((restaent cero) (primero (segundo m1))))mod))
-                           ((representante_canonico ((restaent cero) (segundo (primero m1))))mod))
-                          ((representante_canonico (primero (primero m1)))mod))
+                             ((representante_canonico (segundo (segundo m)))mod))
+                            ((representante_canonico ((restaent cero) (primero (segundo m))))mod))
+                           ((representante_canonico ((restaent cero) (segundo (primero m))))mod))
+                          ((representante_canonico (primero (primero m)))mod))
                          ))
-;(testmatrices(matriz_adjunta matriz_prueba1))
+; Prueba: (testmatrices(matriz_adjunta matriz_prueba1))
 
-;; Dada una matriz devuelve la traspuesta.
+#|
+ * Recibe como parametro una matriz. 
+ * Dada una matriz devuelve la matriz traspuesta, intercambiando los valores a fuerza bruta mediante la creación de
+ * una matriz nueva.
+|#
 
 (define matriz_traspuesta (lambda (m)
                              ((((matriz 
@@ -673,7 +694,11 @@
                                (segundo (primero m)))
                               (segundo (segundo m)))))
 
-;; Recibe como parametro una matriz y devuelve un procedimiento que dice si una matriz es nula o no.
+#|
+ * Recibe como parametro una matriz. 
+ * Recibe como parametro una matriz y mediante la comprobación de cada uno de sus elementos devuelve
+ * true o false según la matriz sea nula o no.
+|#
 
 (define matriz_nula? (lambda (m)
                        ((esceroent ((representante_canonico (primero (primero m))) mod))
@@ -682,14 +707,20 @@
                           ((esceroent ((representante_canonico (segundo (segundo m))) mod)) true false) false) false) 
                         false)))
 
-;; Dada una matriz devuelve si el rango es uno o dos.
-;; Usada para calcular el rango.
+#|
+ * Recibe como parametro una matriz. 
+ * Procedimiento auxiliar que nos devuelve si el rango es uno o dos.
+ * Usada para calcular el rango.
+|#
 
 (define rango_aux (lambda (m)
                     ((esceroent (determinante m)) uno dos)))
 
-;; Dada una matriz calcula el rango de esta. 
-;; Si es matriz nula devuelve cero directamente.
+#|
+ * Recibe como parametro una matriz. 
+ * Dada una matriz calcula el rango de esta. 
+ * Si es matriz nula devuelve cero directamente.
+|#
 
 (define rango (lambda (m)
                 ((matriz_nula? m) cero (rango_aux m))))
@@ -699,10 +730,13 @@
            cálculo de potencias, también conocido como exponenciación binaria.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
-;; Calcula el cuadrado de una matriz multiplicándola por sí misma.
+#|
+ * Recibe como parametro una matriz. 
+ * Devuelve un procedimiento que calcula el cuadrado de una matriz dada.
+|#
 
-(define cuadrado_matrices (lambda (matriz)
-                              ((producto_matrices matriz) matriz)))
+(define cuadrado_matrices (lambda (m)
+                              ((producto_matrices m) m)))
 
 #|
   * Recibe como parametros una matriz y un número.
@@ -713,25 +747,18 @@
 
 (define potencia_matrices (lambda (m)
                             (lambda (p)
-                              ; comienzo de la llamada recursiva, pasando el exponente como índice. 
-                              ((Y (lambda (f)
-                                    (lambda (e)
-                                      ; si el exponente es cero
-                                      (((esceroent e)
-                                        (lambda (no_use)
-                                          ; se devuelve la matriz identidad
-                                          identidad
-                                          )
-                                        ; si no es cero
-                                        (lambda (no_use)
-                                          ; se comprueba si el exponente es par
-                                          (((esceroent ((restoent e) dos))
-                                            ; si es par se calcula el cuadrado de la matriz y se llama a recursion dividiendo entre 2 el exponente
+                              ((Y (lambda (f) ; declaramos llamada recursiva como f, pasando el exponente 
+                                    (lambda (e)                                      
+                                      (((esceroent e) ; si el exponente es cero
+                                        (lambda (no_use)                                          
+                                          identidad ; devuelve la matriz identidad
+                                          )                                        
+                                        (lambda (no_use)                                          
+                                          (((esceroent ((restoent e) dos)) ; si no es cero se comprueba si el exponente es par                                          
                                             (lambda (no_use)
-                                              (cuadrado_matrices (f ((cocienteent e) dos))))
-                                            ; si es impar se multiplica la matriz por el valor del exponente menos uno
+                                              (cuadrado_matrices (f ((cocienteent e) dos)))) ; si es par se calcula el cuadrado de la matriz y se llama a recursion dividiendo entre 2 el exponente                                           
                                             (lambda (no_use)
-                                              ((producto_matrices m)(f ((restaent e) uno))))) cero)
+                                              ((producto_matrices m)(f ((restaent e) uno))))) cero)  ; si es impar se multiplica la matriz por el valor del exponente menos uno
                                           )
                                         )
                                        cero)
@@ -766,33 +793,13 @@
   (display (testenteros (rango matriz_prueba2)))
   (display "\nRango matriz nula: ")
   (display (testenteros (rango matriz_nula)))
-
+  (display "\nInversa matriz prueba 1: ")
+  (display (testmatrices(inversa_matriz matriz_prueba1)))
+  (display "\nInversa matriz prueba 2: ")
+  (display (testmatrices(inversa_matriz matriz_prueba2))) 
   (display "\nMatriz prueba 1 ^ 2: ")
   (display (testmatrices((potencia_matrices matriz_prueba1) dos)))
   (display "\nMatriz prueba 2 ^ 3: ")
   (display (testmatrices((potencia_matrices matriz_prueba2) tres)))
   (display "\n\n------------------------------------------------------------------------------")
   )
-
-
-  
-  ;(display "\n¿Es inversible la matriz de prueba 1?: ")
-  ;  (display(inversa? matriz_prueba1))
-  ;(display "\n¿Es inversible la matriz de prueba 2?: ")
-  ;  (display (inversa? matriz_prueba2))
-  ;(display "\nDeterminante matriz de prueba 1: ")
-  ; (display (test_racionales (determinante matriz_prueba1)))
-
-
-  ;(display "\nMatriz de prueba 1 al cuadrado: ")
-  ;(display (testmatrices (cuadrado_matrices matriz_prueba1)))
-  ;(display "\nMatriz identidad elevado a la quinta con exponenciacion binaria: ")
-  ;(display (testmatrices ((potencia_matrices identidad) cinq)))
-  ;(display "\nMatriz de prueba 3 al cubo con exponenciacion binaria: ")
-  ;(display (testmatrices ((potencia_matrices matriz_prueba3) trois)))
-  ;(display "\nInversa de matriz de prueba 1: ")
-  ;(display (testmatrices (inversa matriz_prueba1)))
-  ;(display "\nMatriz de prueba 1 x Inversa de matriz de prueba 1: ")
-  ;(display (testmatrices ((prod_matrices matriz_prueba1) (inversa matriz_prueba1))))
-  
-

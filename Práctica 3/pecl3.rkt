@@ -613,15 +613,15 @@
 
 (define determinante (lambda (m)
                        ((representante_canonico ((restaent ((prodent (primero (primero m))) (segundo (segundo m))))
-                                         ((prodent (segundo (primero m))) (primero (segundo m))))) mod)))
+                                                 ((prodent (segundo (primero m))) (primero (segundo m))))) mod)))
 
 #| -------------------------------------------------------------------------------------------------------------------------------------
   *    (f) Decisión sobre inversibilidad y cálculo de inversa y del rango.
  ------------------------------------------------------------------------------------------------------------------------------------- |#
 
 #|
- * Dada una matriz y un número entero, devuelve un procedimiento con el resultado de la multiplicación de dicho número por todos
- * los elementos de la matriz.
+ * Dada una matriz y un número entero, devuelve un procedimiento con el resultado de la multiplicación
+ * de dicho número por todos los elementos de la matriz.
 |#
 
 (define prod_escalar (lambda (m)
@@ -632,19 +632,20 @@
                            ((prod_enteros (primero (segundo m))) n))
                           ((prod_enteros (segundo (segundo m))) n)))))
 
-; Prueba: (testmatrices((prod_escalar matriz_prueba3) dos))
+; prueba: (testmatrices((prod_escalar matriz_prueba3) dos))
 
 #|
- * Decisión sobre inversibilidad de una matriz dependiendo de si el determinante es 0 (si es 0 no tiene).
- * Devuelve un procedimiento con la inversa de la matriz recibida 
+ * Dada la matriz comprueba si tiene inversa.
+ * Devuelve un procedimiento que dice si tiene o no inversa.
 |#
 
 (define inversa_matriz? (lambda (m)
                           ((esceroent (determinante m)) false true)))
 
-; Prueba: (inversa_matriz? matriz_prueba1)
+; prueba: (inversa_matriz? matriz_prueba1)
 
 #|
+ * Decisión sobre inversibilidad de una matriz dependiendo de si el determinante es 0 (si es 0 no tiene).
  * Dada la matriz calcula la inversa. 
  * Si es 0 el determinante de la matriz devuelve matriz nula (no tiene inverso). Sino llama a inversa_matriz_aux para calcular su inversa.
 |#
@@ -652,12 +653,12 @@
 (define inversa_matriz (lambda (m)
                          ((esceroent (determinante m)) matriz_nula (inversa_matriz_aux m))))
 
-; Prueba: (testmatrices(inversa_matriz matriz_prueba1)) --> no tiene inversa y sale nula
-; Prueba: (testmatrices(inversa_matriz matriz_prueba2)) --> tiene inversa y convierte (-3, 2, 2, 1)
+; prueba: (testmatrices(inversa_matriz matriz_prueba1)) --> no tiene inversa y sale nula
+; prueba: (testmatrices(inversa_matriz matriz_prueba2)) --> tiene inversa y convierte (-3, 2, 2, 1)
 
 #|
- * Recibe como parametro una matriz
- * Multiplica el determinante por la matriz adjunta con el producto escalar.
+ * Recibe como parametro una matriz.
+ * Multiplica el inverso del determinante por la matriz traspuesta de la adjunta con el producto escalar.
  * Al ser una matriz de 2x2, se cumple que la matriz  a b   al hacer la adjunta y despues la transpuesta de la adjunta
  *                                                    c d
  * queda siempre como  d -b .
@@ -679,7 +680,8 @@
                            ((representante_canonico ((restaent cero) (segundo (primero m))))mod))
                           ((representante_canonico (primero (primero m)))mod))
                          ))
-; Prueba: (testmatrices(matriz_adjunta matriz_prueba1))
+
+; prueba: (testmatrices(matriz_adjunta matriz_prueba1))
 
 #|
  * Recibe como parametro una matriz. 
@@ -756,9 +758,11 @@
                                         (lambda (no_use)                                          
                                           (((esceroent ((restoent e) dos)) ; si no es cero se comprueba si el exponente es par                                          
                                             (lambda (no_use)
-                                              (cuadrado_matrices (f ((cocienteent e) dos)))) ; si es par se calcula el cuadrado de la matriz y se llama a recursion dividiendo entre 2 el exponente                                           
+                                              (cuadrado_matrices (f ((cocienteent e) dos)))) ; si es par se calcula el cuadrado de la matriz y se
+                                                                                             ; llama a recursion dividiendo entre 2 el exponente                                           
                                             (lambda (no_use)
-                                              ((producto_matrices m)(f ((restaent e) uno))))) cero)  ; si es impar se multiplica la matriz por el valor del exponente menos uno
+                                              ((producto_matrices m)(f ((restaent e) uno))))) cero)  ; si es impar se multiplica la matriz
+                                          por el valor del exponente menos uno
                                           )
                                         )
                                        cero)
